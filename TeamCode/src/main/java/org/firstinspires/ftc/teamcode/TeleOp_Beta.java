@@ -44,7 +44,7 @@ public class TeleOp_Beta extends LinearOpMode {
     double driveconstant;
     double basevoltage = 13.5; //EDIT THIS TO CHANGE THE BASE VOLTAGE
     double drivepower = 0.6;
-    double targetshooterpower = 0.45; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
+    double targetshooterpower = 0.47; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
     double targetshotpower = 0.4; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER FOR THE POWER SHOT
     double turnpower = 0.5; //EDIT THIS TO CHANGE THE POWER OF THE DRIVETRAIN FOR THE POWER SHOT
     int armposition;
