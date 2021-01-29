@@ -117,8 +117,8 @@ public class TeleOp_Beta extends LinearOpMode {
                 RT = gamepad1.right_trigger;
                 LT = gamepad1.left_trigger;
                 RstickX*=0.7; //speed for turns
-                MRight.setPower(-(-RstickX-RstickY)*speed*0.92); // motor speed can be adjusted
-                MLeft.setPower(-(-RstickX+RstickY)*speed);
+                MRight.setPower((-RstickX-RstickY)*speed*0.92); // motor speed can be adjusted
+                MLeft.setPower((-RstickX+RstickY)*speed);
                 if (gamepad1.y) {
                     voltage = ExpansionHub1_VoltageSensor.getVoltage();
                     MLeftShooter.setPower(-powerconstant/voltage);
