@@ -50,10 +50,7 @@ public class MainAuto extends LinearOpMode {
     private VoltageSensor ExpansionHub1_VoltageSensor;
     double ldistance;
     double rdistance;
-    float RstickX;
-    float RstickY;
     double LStick;
-    double clawangle;
     double voltage;
     boolean bool = true;
     double powerconstant;
@@ -65,7 +62,6 @@ public class MainAuto extends LinearOpMode {
     double targetshooterpower = 0.34; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
     double targetshotpower = 0.42; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER FOR THE POWER SHOT
     double turnpower = 0.5; //EDIT THIS TO CHANGE THE POWER OF THE DRIVETRAIN FOR THE POWER SHOT
-    int armposition;
     int initialHeading, leftHeading, rightHeading;
     int heading;
     int difference;
@@ -268,13 +264,13 @@ public class MainAuto extends LinearOpMode {
         DriveForwardEncoders(0.6, 2550);
         wait(300);
         TurnLeft();
-        correctLeft();
+        //correctLeft();
         wait(200);
         DriveForwardEncoders(0.4, 920);
         wait(300);
         TurnRight();
         wait(300);
-        correct180();
+        //correct180();
         ShootGoal();
 
     }
@@ -360,12 +356,12 @@ public class MainAuto extends LinearOpMode {
     }
     public void ClawUp(){
 
-        ArmEncoder(1,3200);
+        ArmEncoder(1,-3200);
         MArm.setPower(0);
 
     }
     public void ClawDown(){
-        ArmEncoder(1,-3200);
+        ArmEncoder(1,3200);
         MArm.setPower(0);
 
     }
@@ -481,15 +477,15 @@ public class MainAuto extends LinearOpMode {
     {
         MLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MLeft.setDirection(DcMotor.Direction.REVERSE);
-        MRight.setDirection(DcMotor.Direction.FORWARD);
+        MLeft.setDirection(DcMotor.Direction.FORWARD);
+        MRight.setDirection(DcMotor.Direction.REVERSE);
         //resets encoder count of the right motor
         MLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //sets left motor ro run to a target position using encoders and stop with brakes on
         MRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //sets right motor ro run to a target position using encoders and stop with brakes on
-        MLeft.setTargetPosition(distance);
-        MRight.setTargetPosition(distance);
+        MLeft.setTargetPosition(-distance);
+        MRight.setTargetPosition(-distance);
         MLeft.setPower(power);
         MRight.setPower(power);
         MLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -527,8 +523,8 @@ public class MainAuto extends LinearOpMode {
         //sets left motor ro run to a target position using encoders and stop with brakes on
         MRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //sets right motor ro run to a target position using encoders and stop with brakes on
-        MLeft.setTargetPosition(distance);
-        MRight.setTargetPosition(distance);
+        MLeft.setTargetPosition(-distance);
+        MRight.setTargetPosition(-distance);
         MLeft.setPower(power);
         MRight.setPower(power*0.978);
         MLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -566,8 +562,8 @@ public class MainAuto extends LinearOpMode {
         //sets left motor ro run to a target position using encoders and stop with brakes on
         MRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //sets right motor ro run to a target position using encoders and stop with brakes on
-        MLeft.setTargetPosition(distance);
-        MRight.setTargetPosition(distance);
+        MLeft.setTargetPosition(-distance);
+        MRight.setTargetPosition(-distance);
         MLeft.setPower(power);
         MRight.setPower(power*0.978);
         MLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
