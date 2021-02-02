@@ -67,9 +67,9 @@ public class Auto_Beta extends LinearOpMode {
 
     private int delay_ms = 20;
 
-    private final double kp = 0.007;
+    private final double kp = 0.008;
     private final double ki = 0.000003;
-    private final double kd = 0.000007;
+    private final double kd = 0.000010;
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
      * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
@@ -231,7 +231,7 @@ public class Auto_Beta extends LinearOpMode {
 
     public void a(){
         Cam.setPosition(0.2);
-        DriveForwardPID(3000);
+        DriveForwardPID(300);
         //GoToShoot();
         //GoToA();
         wait(30000);
@@ -731,13 +731,13 @@ public class Auto_Beta extends LinearOpMode {
     public void DriveForwardPID(double setPoint){
         MLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        MLeft.setDirection(DcMotor.Direction.FORWARD);
-        MLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        MLeft.setDirection(DcMotor.Direction.REVERSE);
+        //MLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         MRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        MRight.setDirection(DcMotor.Direction.REVERSE);
-        MRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        MRight.setDirection(DcMotor.Direction.FORWARD);
+        //MRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         double current_state_Left = 0;
         double current_state_Right = 0;
         while(opModeIsActive() && (((setPoint - current_state_Left) !=0) || ((setPoint - current_state_Right) !=0))){
