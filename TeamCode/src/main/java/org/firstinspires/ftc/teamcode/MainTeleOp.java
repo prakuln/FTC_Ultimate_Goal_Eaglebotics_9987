@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -42,8 +44,8 @@ public class MainTeleOp extends LinearOpMode {
     double driveconstant;
     double basevoltage = 13.5; //EDIT THIS TO CHANGE THE BASE VOLTAGE
     double drivepower = 0.6;
-    double targetshooterpower = 0.34; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
-    double targetshotpower = 0.58; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER FOR THE POWER SHOT
+    double targetshooterpower = 0.46; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
+    double targetshotpower = 0.4; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER FOR THE POWER SHOT
     double turnpower = 0.5; //EDIT THIS TO CHANGE THE POWER OF THE DRIVETRAIN FOR THE POWER SHOT
     int armposition;
     double speed = 1;
@@ -114,17 +116,17 @@ public class MainTeleOp extends LinearOpMode {
                 LStick= gamepad1.left_stick_y;
                 RT = gamepad1.right_trigger;
                 LT = gamepad1.left_trigger;
-                RstickX*=0.7; //speed for turns
-                MRight.setPower(-(-RstickX-RstickY)*speed*0.92); // motor speed can be adjusted
-                MLeft.setPower(-(-RstickX+RstickY)*speed);
-                if (gamepad1.dpad_up) {
+                RstickX*=1; //speed for turns
+                MRight.setPower((RstickX-RstickY)*speed); // motor speed can be adjusted
+                MLeft.setPower((RstickX+RstickY)*speed);
+                if (gamepad1.y) {
                     voltage = ExpansionHub1_VoltageSensor.getVoltage();
-                    MLeftShooter.setPower(-1);
-                    MRightShooter.setPower(1);
+                    MLeftShooter.setPower(-powerconstant/voltage);
+                    MRightShooter.setPower(powerconstant/voltage);
                 }
-                if (gamepad1.dpad_down) {
-                    MLeftShooter.setPower(1);
-                    MRightShooter.setPower(-1);
+                if (gamepad1.a) {
+                    MLeftShooter.setPower(powerconstant/voltage);
+                    MRightShooter.setPower(-powerconstant/voltage);
                     wait(500);
                     MLeftShooter.setPower(0);
                     MRightShooter.setPower(0);
@@ -142,11 +144,11 @@ public class MainTeleOp extends LinearOpMode {
 
 
                 }
-                if (gamepad1.left_stick_button){
+                if (gamepad1.x){
                     ShootGoal();
 
                 }
-                if (gamepad1.right_stick_button){
+                if (gamepad1.b){
                     ShootOne();
 
                 }
@@ -155,16 +157,19 @@ public class MainTeleOp extends LinearOpMode {
                 }
 
 
-                if (gamepad1.a){ // code for the arm
-                    ClawUp();
+                if (gamepad1.dpad_down){ // code for the arm
+                    MArm.setPower(-1);
                 }
-                if (gamepad1.y){
-                    ClawDown();
+                else if (gamepad1.dpad_up){
+                    MArm.setPower(1);
                 }
-                if (gamepad1.b){
+                else{
+                    MArm.setPower(0);
+                }
+                if (gamepad1.dpad_right){
                     close();
                 }
-                if (gamepad1.x){
+                if (gamepad1.dpad_left){
                     open();
                 }
 
@@ -185,18 +190,19 @@ public class MainTeleOp extends LinearOpMode {
         RClaw.setPosition(0);
     }
     public void ClawUp(){
-        if(position == true){
-            ArmEncoder(1,-3200);
-            MArm.setPower(0);
-            position = false;}
+
+        wait(500);
+        ArmEncoder(1,-3200);
+        MArm.setPower(0);
+        position = false;
 
     }
     public void ClawDown(){
-        if(position == false){
-            ArmEncoder(1,3200);
-            MArm.setPower(0);
-            open();
-            position = true;}
+
+        ArmEncoder(1,3200);
+        MArm.setPower(0);
+        MArm.setPower(0);
+        position = true;
 
     }
     public void SpeedControl(double speedcontr){
@@ -209,14 +215,14 @@ public class MainTeleOp extends LinearOpMode {
 
         Hopper.setPosition(0.945); //set arm back
 
-        MLeftShooter.setPower(-1);
-        MRightShooter.setPower(1);
+        MLeftShooter.setPower(-powerconstant/voltage);
+        MRightShooter.setPower(powerconstant/voltage);
         wait(500);
         for(int i=0; i<3; i++){ //shoot the rings
             Hopper.setPosition(0.83);
-            wait(250);
+            wait(300);
             Hopper.setPosition(0.94);
-            wait(250);
+            wait(300);
         }
         Hopper.setPosition(0.94); // bring the arm back
         MLeftShooter.setPower(0);
@@ -233,11 +239,17 @@ public class MainTeleOp extends LinearOpMode {
         Hopper.setPosition(0.83);
         wait(200);
         Hopper.setPosition(0.94);
-        turnGyro(2);
+        turnGyro(4);
+        MLeft.setPower(0);
+        MRight.setPower(0);
+        wait(1000);
         Hopper.setPosition(0.83);
         wait(200);
         Hopper.setPosition(0.94);
-        turnGyro(-1);
+        turnGyro(-6);
+        MLeft.setPower(0);
+        MRight.setPower(0);
+        wait(1000);
         Hopper.setPosition(0.83);
         wait(200);
         Hopper.setPosition(0.94);
@@ -314,7 +326,7 @@ public class MainTeleOp extends LinearOpMode {
         //sets right motor ro run to a target position usiong encoders and stop with brakes on
 
     }
-    public void TurnLeftEncoders(double power, int distance)
+    public void TurnRightEncoders(double power, int distance)
     {
         MLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -353,7 +365,7 @@ public class MainTeleOp extends LinearOpMode {
         //sets right motor ro run to a target position usiong encoders and stop with brakes on
 
     }
-    public void TurnRightEncoders(double power, int distance)
+    public void TurnLeftEncoders(double power, int distance)
     {
         MLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         MRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -424,14 +436,6 @@ public class MainTeleOp extends LinearOpMode {
         MArm.setTargetPosition(distance);
         MArm.setPower(power);
         MArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (opModeIsActive() && MArm.isBusy())
-        {
-            telemetry.addData("encoder-Arm", MArm.getCurrentPosition() + " busy=" + MArm.isBusy());
-            MRight.setPower((-RstickX-RstickY)*speed); // motor speed can be adjusted
-            MLeft.setPower((-RstickX+RstickY)*speed);
-            telemetry.update();
-            idle();
-        }
         MArm.setPower(0);
         MArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //resets encoder count of the right motor
@@ -446,8 +450,8 @@ public class MainTeleOp extends LinearOpMode {
 
         Hopper.setPosition(0.94); //set arm back
 
-        MLeftShooter.setPower(-1);
-        MRightShooter.setPower(1);
+        MLeftShooter.setPower(-powerconstant/voltage);
+        MRightShooter.setPower(powerconstant/voltage);
         wait(1000);
         //shoot the ring
         Hopper.setPosition(0.83);
@@ -498,12 +502,14 @@ public class MainTeleOp extends LinearOpMode {
         int currentAngle = (int) getAngle();
         int targetAngle = currentAngle + angle;
         while(getAngle()!= targetAngle){
+            telemetry.addData("current heading:", currentAngle);
+            telemetry.update();
             if(currentAngle < targetAngle){
-                MLeft.setPower(0.5);
-                MRight.setPower(0.5);
-            } else if(currentAngle > targetAngle) {
                 MLeft.setPower(-0.5);
                 MRight.setPower(-0.5);
+            } else if(currentAngle > targetAngle) {
+                MLeft.setPower(0.5);
+                MRight.setPower(0.5);
             } else {
                 MLeft.setPower(0);
                 MRight.setPower(0);

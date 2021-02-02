@@ -25,7 +25,7 @@ public class SamplePID extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        liftMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        liftMotor = hardwareMap.get(DcMotor.class, "MLeft");
         liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         PID = new pid(kp,ki,kd,delay_ms);
