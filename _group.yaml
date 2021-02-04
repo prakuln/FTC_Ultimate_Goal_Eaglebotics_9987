@@ -1,0 +1,9 @@
+---
+maxVel: 60.52801845916335
+maxAccel: 60.52801845916335
+maxAngVel: 5.044001538263612
+maxAngAccel: 5.044001538263612
+robotLength: 18.0
+robotWidth: 18.0
+driveType: "TANK"
+trackWidth: 12.0
