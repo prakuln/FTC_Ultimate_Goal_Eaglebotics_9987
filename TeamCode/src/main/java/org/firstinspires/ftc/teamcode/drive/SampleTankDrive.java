@@ -134,10 +134,10 @@ public class SampleTankDrive extends TankDrive {
         // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
 
         // add/remove motors depending on your robot (e.g., 6WD)
-        DcMotorEx leftFront = hardwareMap.get(DcMotorEx.class, "MLeft");
+        DcMotorEx leftFront = hardwareMap.get(DcMotorEx.class, "MRight");
         //DcMotorEx leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         //DcMotorEx rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
-        DcMotorEx rightFront = hardwareMap.get(DcMotorEx.class, "MRight");
+        DcMotorEx rightFront = hardwareMap.get(DcMotorEx.class, "MLeft");
 
         motors = Arrays.asList(leftFront, rightFront);
         leftMotors = Arrays.asList(leftFront);
@@ -160,8 +160,8 @@ public class SampleTankDrive extends TankDrive {
         }
 
         // TODO: reverse any motors using DcMotor.setDirection()
-        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
     }

@@ -44,7 +44,7 @@ public class TeleOp_Beta extends LinearOpMode {
     double driveconstant;
     double basevoltage = 13.5; //EDIT THIS TO CHANGE THE BASE VOLTAGE
     double drivepower = 0.6;
-    double targetshooterpower = 0.46; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
+    double targetshooterpower = 0.45; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
     double targetshotpower = 0.4; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER FOR THE POWER SHOT
     double turnpower = 0.5; //EDIT THIS TO CHANGE THE POWER OF THE DRIVETRAIN FOR THE POWER SHOT
     int armposition;
@@ -117,8 +117,8 @@ public class TeleOp_Beta extends LinearOpMode {
                 RT = gamepad1.right_trigger;
                 LT = gamepad1.left_trigger;
                 RstickX*=1; //speed for turns
-                MRight.setPower((RstickX-RstickY)*speed); // motor speed can be adjusted
-                MLeft.setPower((RstickX+RstickY)*speed);
+                MRight.setPower((((RstickX-RstickY)))*(((RstickX-RstickY)))*(((RstickX-RstickY)))*speed); // motor speed can be adjusted
+                MLeft.setPower((((RstickX+RstickY)))*(((RstickX+RstickY)))*(((RstickX+RstickY)))*speed);
                 if (gamepad1.y) {
                     voltage = ExpansionHub1_VoltageSensor.getVoltage();
                     MLeftShooter.setPower(-powerconstant/voltage);
@@ -132,17 +132,12 @@ public class TeleOp_Beta extends LinearOpMode {
                     MRightShooter.setPower(0);
                 }
                 if (gamepad1.left_bumper){ //code for speed change
-                    if(speedmode == false) {
-                        SpeedControl(0.6);
-                        speedmode = true;
-                    }
-
-                    else {
-                        SpeedControl(1);
-                        speedmode = false;
-                    }
+                   SpeedControl(0.6);
 
 
+                }
+                else{
+                    SpeedControl(1);
                 }
                 if (gamepad1.x){
                     ShootGoal();

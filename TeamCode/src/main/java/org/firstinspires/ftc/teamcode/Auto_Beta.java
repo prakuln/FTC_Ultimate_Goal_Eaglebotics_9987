@@ -52,7 +52,7 @@ public class Auto_Beta extends LinearOpMode {
     double driveconstant;
     double basevoltage = 13.5; //EDIT THIS TO CHANGE THE BASE VOLTAGE
     double drivepower = 0.6;
-    double targetshooterpower = 0.34; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
+    double targetshooterpower = 0.45; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
     double targetshotpower = 0.42; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER FOR THE POWER SHOT
     double turnpower = 0.5; //EDIT THIS TO CHANGE THE POWER OF THE DRIVETRAIN FOR THE POWER SHOT
     int initialHeading, leftHeading, rightHeading;
@@ -129,7 +129,9 @@ public class Auto_Beta extends LinearOpMode {
         Hopper = hardwareMap.servo.get("Hopper");
         Hopper.setPosition(0.92);
         close();
-        Cam.setPosition(1);
+        Cam.setPosition(0.9
+
+        );
         BNO055IMU.Parameters imuParameters;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         // Create new IMU Parameters object.
@@ -180,6 +182,8 @@ public class Auto_Beta extends LinearOpMode {
         if (opModeIsActive()) {
 
             while (opModeIsActive()) {
+                voltage = ExpansionHub1_VoltageSensor.getVoltage();
+                powerconstant = basevoltage*targetshooterpower;
                 if (tfod != null) {
                     wait(500);
                     MLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -231,8 +235,7 @@ public class Auto_Beta extends LinearOpMode {
 
     public void a(){
         Cam.setPosition(0.2);
-        DriveForwardPID(300);
-        //GoToShoot();
+        GoToShoot();
         //GoToA();
         wait(30000);
     }
@@ -240,7 +243,7 @@ public class Auto_Beta extends LinearOpMode {
         Cam.setPosition(0.2);
         GoToShoot();
         //ShootB();
-        GoToB();
+        //GoToB();
         wait(30000);
 
     }
@@ -253,7 +256,7 @@ public class Auto_Beta extends LinearOpMode {
         wait(30000);
     }
     public void TurnLeft(){ //90 degree turn left
-        TurnLeftEncoders(0.4,360);
+        TurnLeftEncoders(0.4,370);
     }
     public void TurnRight(){ //90 degree turn right
         TurnRightEncoders(0.4,360);
@@ -265,7 +268,7 @@ public class Auto_Beta extends LinearOpMode {
         TurnRightEncoders(0.4,190);
     }
     public void GoToShoot(){
-        DriveForwardEncoders(0.6, 2550);
+        DriveForwardEncoders(0.6, 2650);
         wait(300);
         TurnLeft();
         //correctLeft();
@@ -373,17 +376,17 @@ public class Auto_Beta extends LinearOpMode {
         //shooting code
 
 
+        voltage = ExpansionHub1_VoltageSensor.getVoltage();
+        Hopper.setPosition(0.945); //set arm back
 
-        Hopper.setPosition(0.94); //set arm back
-
-        MLeftShooter.setPower(1);
-        MRightShooter.setPower(-1);
-        wait(1500);
+        MLeftShooter.setPower(-powerconstant/voltage);
+        MRightShooter.setPower(powerconstant/voltage);
+        wait(2000);
         for(int i=0; i<3; i++){ //shoot the rings
             Hopper.setPosition(0.83);
-            wait(250);
+            wait(300);
             Hopper.setPosition(0.94);
-            wait(250);
+            wait(300);
         }
         Hopper.setPosition(0.94); // bring the arm back
         MLeftShooter.setPower(0);
