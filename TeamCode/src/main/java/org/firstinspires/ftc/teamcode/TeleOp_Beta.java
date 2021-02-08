@@ -31,28 +31,13 @@ public class TeleOp_Beta extends LinearOpMode {
     private Servo Cam;
     private Servo Hopper;
     private VoltageSensor ExpansionHub1_VoltageSensor;
-    double ldistance;
-    double rdistance;
     float RstickX;
     float RstickY;
     double LStick;
-    double clawangle;
     double voltage;
-    double powerconstant;
-    double shotconstant;
-    double turnconstant;
-    double driveconstant;
-    double basevoltage = 13.5; //EDIT THIS TO CHANGE THE BASE VOLTAGE
-    double drivepower = 0.6;
-    double targetshooterpower = 0.45; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
-    double targetshotpower = 0.4; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER FOR THE POWER SHOT
-    double turnpower = 0.5; //EDIT THIS TO CHANGE THE POWER OF THE DRIVETRAIN FOR THE POWER SHOT
-    int armposition;
     double speed = 1;
-    double contPower;
     double LT;
     double RT;
-    boolean speedmode = false;
     boolean position = true;
     /**
      * This function is executed when this Op Mode is selected from the Driver Station.
@@ -107,10 +92,6 @@ public class TeleOp_Beta extends LinearOpMode {
                 telemetry.update();
                 Hopper.setPosition(0.94);
                 voltage = ExpansionHub1_VoltageSensor.getVoltage();
-                powerconstant = basevoltage*targetshooterpower;
-                shotconstant = basevoltage*targetshotpower;
-                turnconstant = basevoltage*turnpower;
-                driveconstant = basevoltage*drivepower;
                 RstickX = gamepad1.right_stick_x; //the variable will collect the value from the controller
                 RstickY = gamepad1.right_stick_y;
                 LStick= gamepad1.left_stick_y;
@@ -121,12 +102,12 @@ public class TeleOp_Beta extends LinearOpMode {
                 MLeft.setPower((((RstickX+RstickY)))*(((RstickX+RstickY)))*(((RstickX+RstickY)))*speed);
                 if (gamepad1.y) {
                     voltage = ExpansionHub1_VoltageSensor.getVoltage();
-                    MLeftShooter.setPower(-powerconstant/voltage);
-                    MRightShooter.setPower(powerconstant/voltage);
+                    MLeftShooter.setPower(-Constants.powerconstant/voltage);
+                    MRightShooter.setPower(Constants.powerconstant/voltage);
                 }
                 if (gamepad1.a) {
-                    MLeftShooter.setPower(powerconstant/voltage);
-                    MRightShooter.setPower(-powerconstant/voltage);
+                    MLeftShooter.setPower(Constants.powerconstant/voltage);
+                    MRightShooter.setPower(-Constants.powerconstant/voltage);
                     wait(500);
                     MLeftShooter.setPower(0);
                     MRightShooter.setPower(0);
@@ -210,8 +191,8 @@ public class TeleOp_Beta extends LinearOpMode {
 
         Hopper.setPosition(0.945); //set arm back
 
-        MLeftShooter.setPower(-powerconstant/voltage);
-        MRightShooter.setPower(powerconstant/voltage);
+        MLeftShooter.setPower(-Constants.powerconstant/voltage);
+        MRightShooter.setPower(Constants.powerconstant/voltage);
         wait(500);
         for(int i=0; i<3; i++){ //shoot the rings
             Hopper.setPosition(0.83);
@@ -228,20 +209,20 @@ public class TeleOp_Beta extends LinearOpMode {
         //shooting code
         voltage = ExpansionHub1_VoltageSensor.getVoltage();
         Hopper.setPosition(0.94);
-        MLeftShooter.setPower(-shotconstant/voltage);
-        MRightShooter.setPower(shotconstant/voltage);
+        MLeftShooter.setPower(-Constants.shotconstant/voltage);
+        MRightShooter.setPower(Constants.shotconstant/voltage);
         wait(1500);
         Hopper.setPosition(0.83);
         wait(200);
         Hopper.setPosition(0.94);
-        turnGyro(4);
+        TurnLeftEncoders(0.5, 50);
         MLeft.setPower(0);
         MRight.setPower(0);
         wait(1000);
         Hopper.setPosition(0.83);
         wait(200);
         Hopper.setPosition(0.94);
-        turnGyro(-6);
+        TurnRightEncoders(0.5, 100);
         MLeft.setPower(0);
         MRight.setPower(0);
         wait(1000);
@@ -445,8 +426,8 @@ public class TeleOp_Beta extends LinearOpMode {
 
         Hopper.setPosition(0.94); //set arm back
 
-        MLeftShooter.setPower(-powerconstant/voltage);
-        MRightShooter.setPower(powerconstant/voltage);
+        MLeftShooter.setPower(-Constants.powerconstant/voltage);
+        MRightShooter.setPower(Constants.powerconstant/voltage);
         wait(1000);
         //shoot the ring
         Hopper.setPosition(0.83);

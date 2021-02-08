@@ -44,17 +44,7 @@ public class Auto_Beta extends LinearOpMode {
     double rdistance;
     double LStick;
     double voltage;
-
     boolean bool = true;
-    double powerconstant;
-    double shotconstant;
-    double turnconstant;
-    double driveconstant;
-    double basevoltage = 13.5; //EDIT THIS TO CHANGE THE BASE VOLTAGE
-    double drivepower = 0.6;
-    double targetshooterpower = 0.45; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
-    double targetshotpower = 0.42; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER FOR THE POWER SHOT
-    double turnpower = 0.5; //EDIT THIS TO CHANGE THE POWER OF THE DRIVETRAIN FOR THE POWER SHOT
     int initialHeading, leftHeading, rightHeading;
     int heading;
     int difference;
@@ -182,8 +172,6 @@ public class Auto_Beta extends LinearOpMode {
         if (opModeIsActive()) {
 
             while (opModeIsActive()) {
-                voltage = ExpansionHub1_VoltageSensor.getVoltage();
-                powerconstant = basevoltage*targetshooterpower;
                 if (tfod != null) {
                     wait(500);
                     MLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -235,13 +223,19 @@ public class Auto_Beta extends LinearOpMode {
 
     public void a(){
         Cam.setPosition(0.2);
-        GoToShoot();
+        DriveForwardEncoders(0.6,2800);
+        ClawDown();
+        open();
+        //GoToShoot();
         //GoToA();
         wait(30000);
     }
     public void b(){
         Cam.setPosition(0.2);
-        GoToShoot();
+        DriveForwardEncoders(0.6,2800);
+        ClawDown();
+        open();
+        //GoToShoot();
         //ShootB();
         //GoToB();
         wait(30000);
@@ -249,10 +243,13 @@ public class Auto_Beta extends LinearOpMode {
     }
     public void c(){
         Cam.setPosition(0.2);
-        GoToShoot();
+        DriveForwardEncoders(0.6,2800);
+        ClawDown();
+        open();
+        //GoToShoot();
         //ShootC();
-        GoToC();
-        GoToLine();
+        //GoToC();
+        //GoToLine();
         wait(30000);
     }
     public void TurnLeft(){ //90 degree turn left
@@ -379,8 +376,8 @@ public class Auto_Beta extends LinearOpMode {
         voltage = ExpansionHub1_VoltageSensor.getVoltage();
         Hopper.setPosition(0.945); //set arm back
 
-        MLeftShooter.setPower(-powerconstant/voltage);
-        MRightShooter.setPower(powerconstant/voltage);
+        MLeftShooter.setPower(-Constants.powerconstant/voltage);
+        MRightShooter.setPower(Constants.powerconstant/voltage);
         wait(2000);
         for(int i=0; i<3; i++){ //shoot the rings
             Hopper.setPosition(0.83);
@@ -417,16 +414,16 @@ public class Auto_Beta extends LinearOpMode {
         MIntake.setPower(-0.5);
         wait(800);
         MIntake.setPower(0);
-        MLeftShooter.setPower(shotconstant/voltage);
-        MRightShooter.setPower(-shotconstant/voltage);
+        MLeftShooter.setPower(Constants.shotconstant/voltage);
+        MRightShooter.setPower(-Constants.shotconstant/voltage);
         wait(1000);
         MIntake.setPower(1); //center
         wait(500);
         MIntake.setPower(0);
 
         voltage = ExpansionHub1_VoltageSensor.getVoltage();
-        MLeft.setPower(turnconstant/voltage);
-        MRight.setPower(turnconstant/voltage);
+        MLeft.setPower(Constants.turnconstant/voltage);
+        MRight.setPower(Constants.turnconstant/voltage);
         wait(180);
         MLeft.setPower(0);
         MRight.setPower(0);
@@ -436,8 +433,8 @@ public class Auto_Beta extends LinearOpMode {
         MIntake.setPower(0);
 
         voltage = ExpansionHub1_VoltageSensor.getVoltage();
-        MLeft.setPower(-turnconstant/voltage);
-        MRight.setPower(-turnconstant/voltage);
+        MLeft.setPower(-Constants.turnconstant/voltage);
+        MRight.setPower(-Constants.turnconstant/voltage);
         wait(180);
         MLeft.setPower(0);
         MRight.setPower(0);
