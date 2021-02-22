@@ -5,73 +5,35 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 @TeleOp(name = "TeleOp_Beta", group = "")
 public class TeleOp_Beta extends LinearOpMode {
     BNO055IMU imu;
-    Orientation angles;
-    Orientation lastAngles = new Orientation();
-    int initialHeading = 186;
-    private DcMotor MRight;
-    private DcMotor MLeft;
-    private DcMotor MRightShooter;
-    private DcMotor MLeftShooter;
-    private DcMotor MIntake;
-    private DcMotor MRoller;
-    private DcMotor MArm;
-    private Servo LClaw;
-    private Servo RClaw;
-    private Servo Cam;
-    private Servo Hopper;
     private VoltageSensor ExpansionHub1_VoltageSensor;
     float RstickX;
     float RstickY;
     double LStick;
-    double voltage;
-    double speed = 1;
     double LT;
     double RT;
-    boolean position = true;
-    /**
-     * This function is executed when this Op Mode is selected from the Driver Station.
-     */
-
-    public static void wait(int ms)
-    {
-        try
-        {
-            Thread.sleep(ms);
-        }
-        catch(InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
-        }
-    }
     @Override
     public void runOpMode() {
 
-        MRight = hardwareMap.dcMotor.get("MRight"); //initialize the motors
-        MLeft = hardwareMap.dcMotor.get("MLeft");
-        MLeftShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        MRightShooter = hardwareMap.dcMotor.get("MRightShooter");
-        MIntake = hardwareMap.dcMotor.get("MIntake");
-        MRoller = hardwareMap.dcMotor.get("MRoller");
-        MArm = hardwareMap.dcMotor.get("MArm");
+        Robot.leftFront = hardwareMap.dcMotor.get("leftFront");
+        Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
+        Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
+        Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
+        Robot.MLeftShooter = hardwareMap.dcMotor.get("MLeftShooter");
+        Robot.MRightShooter = hardwareMap.dcMotor.get("MRightShooter");
+        Robot.MIntake = hardwareMap.dcMotor.get("MIntake");
+        Robot.MArm = hardwareMap.dcMotor.get("MArm");
         ExpansionHub1_VoltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
-        LClaw = hardwareMap.servo.get("LClaw");
-        RClaw = hardwareMap.servo.get("RClaw");
-        Cam = hardwareMap.servo.get("Cam");
-        Hopper = hardwareMap.servo.get("Hopper");
-        Cam.setPosition(0.2);
-        Hopper.setPosition(0.94);
-        open();
+        Robot.LClaw = hardwareMap.servo.get("LClaw");
+        Robot.RClaw = hardwareMap.servo.get("RClaw");
+        Robot.Cam = hardwareMap.servo.get("Cam");
+        Robot.Hopper = hardwareMap.servo.get("Hopper");
+        Robot.Cam.setPosition(0.2);
+        Robot.Hopper.setPosition(0.94);
+        Robot.openArm();
         BNO055IMU.Parameters imuParameters;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         // Create new IMU Parameters object.
@@ -90,406 +52,63 @@ public class TeleOp_Beta extends LinearOpMode {
             while (opModeIsActive()) {
                 // Put loop blocks here.
                 telemetry.update();
-                Hopper.setPosition(0.94);
-                voltage = ExpansionHub1_VoltageSensor.getVoltage();
-                RstickX = gamepad1.right_stick_x; //the variable will collect the value from the controller
-                RstickY = gamepad1.right_stick_y;
-                LStick= gamepad1.left_stick_y;
-                RT = gamepad1.right_trigger;
-                LT = gamepad1.left_trigger;
-                RstickX*=1; //speed for turns
-                MRight.setPower((((RstickX-RstickY)))*(((RstickX-RstickY)))*(((RstickX-RstickY)))*speed); // motor speed can be adjusted
-                MLeft.setPower((((RstickX+RstickY)))*(((RstickX+RstickY)))*(((RstickX+RstickY)))*speed);
+                Robot.Hopper.setPosition(0.94);
+                Robot.MechanumDriveControl(gamepad1.right_stick_x*Constants.turnpower, gamepad1.right_stick_y,  gamepad1.left_stick_x);
                 if (gamepad1.y) {
-                    voltage = ExpansionHub1_VoltageSensor.getVoltage();
-                    MLeftShooter.setPower(-Constants.powerconstant/voltage);
-                    MRightShooter.setPower(Constants.powerconstant/voltage);
+                    Robot.MLeftShooter.setPower(-1);
+                    Robot.MRightShooter.setPower(0);
                 }
                 if (gamepad1.a) {
-                    MLeftShooter.setPower(Constants.powerconstant/voltage);
-                    MRightShooter.setPower(-Constants.powerconstant/voltage);
-                    wait(500);
-                    MLeftShooter.setPower(0);
-                    MRightShooter.setPower(0);
+                    Robot.MLeftShooter.setPower(Constants.powerconstant/ExpansionHub1_VoltageSensor.getVoltage());
+                    Robot.MRightShooter.setPower(-Constants.powerconstant/ExpansionHub1_VoltageSensor.getVoltage());
+                    Robot.wait(500);
+                    Robot.MLeftShooter.setPower(0);
+                    Robot.MRightShooter.setPower(0);
                 }
                 if (gamepad1.left_bumper){ //code for speed change
-                   SpeedControl(0.6);
+                   Robot.SpeedControl(0.6);
 
 
                 }
                 else{
-                    SpeedControl(1);
+                    Robot.SpeedControl(1);
                 }
                 if (gamepad1.x){
-                    ShootGoal();
+                    Robot.ShootGoal(ExpansionHub1_VoltageSensor.getVoltage());
 
                 }
                 if (gamepad1.b){
-                    ShootOne();
+                    Robot.ShootOne(ExpansionHub1_VoltageSensor.getVoltage());
 
                 }
                 if (gamepad1.right_bumper){ //code for shooting the power shots
-                    PowerShot();
+                    Robot.PowerShot(ExpansionHub1_VoltageSensor.getVoltage());
                 }
 
 
                 if (gamepad1.dpad_down){ // code for the arm
-                    MArm.setPower(-1);
+                    Robot.MArm.setPower(-1);
                 }
                 else if (gamepad1.dpad_up){
-                    MArm.setPower(1);
+                    Robot.MArm.setPower(1);
                 }
                 else{
-                    MArm.setPower(0);
+                    Robot. MArm.setPower(0);
                 }
                 if (gamepad1.dpad_right){
-                    close();
+                    Robot.closeArm();
                 }
                 if (gamepad1.dpad_left){
-                    open();
+                    Robot.openArm();
                 }
 
-                MIntake.setPower(-LStick);
-                MRoller.setPower(-LStick);
+                Robot.MIntake.setPower(-LStick);
 
             }
 
         }
 
     }
-    public void open(){
-        LClaw.setPosition(0.6);
-        RClaw.setPosition(1);
-    }
-    public void close(){
-        LClaw.setPosition(0);
-        RClaw.setPosition(0);
-    }
-    public void ClawUp(){
-
-        wait(500);
-        ArmEncoder(1,-3200);
-        MArm.setPower(0);
-        position = false;
-
-    }
-    public void ClawDown(){
-
-        ArmEncoder(1,3200);
-        MArm.setPower(0);
-        MArm.setPower(0);
-        position = true;
-
-    }
-    public void SpeedControl(double speedcontr){
-        speed = speedcontr;
-    }
-    public void ShootGoal(){
-        //shooting code
 
 
-
-        Hopper.setPosition(0.945); //set arm back
-
-        MLeftShooter.setPower(-Constants.powerconstant/voltage);
-        MRightShooter.setPower(Constants.powerconstant/voltage);
-        wait(500);
-        for(int i=0; i<3; i++){ //shoot the rings
-            Hopper.setPosition(0.83);
-            wait(300);
-            Hopper.setPosition(0.94);
-            wait(300);
-        }
-        Hopper.setPosition(0.94); // bring the arm back
-        MLeftShooter.setPower(0);
-        MRightShooter.setPower(0);
-
-    }
-    public void PowerShot(){
-        //shooting code
-        voltage = ExpansionHub1_VoltageSensor.getVoltage();
-        Hopper.setPosition(0.94);
-        MLeftShooter.setPower(-Constants.shotconstant/voltage);
-        MRightShooter.setPower(Constants.shotconstant/voltage);
-        wait(1500);
-        Hopper.setPosition(0.83);
-        wait(200);
-        Hopper.setPosition(0.94);
-        TurnLeftEncoders(0.5, 50);
-        MLeft.setPower(0);
-        MRight.setPower(0);
-        wait(1000);
-        Hopper.setPosition(0.83);
-        wait(200);
-        Hopper.setPosition(0.94);
-        TurnRightEncoders(0.5, 100);
-        MLeft.setPower(0);
-        MRight.setPower(0);
-        wait(1000);
-        Hopper.setPosition(0.83);
-        wait(200);
-        Hopper.setPosition(0.94);
-        MLeftShooter.setPower(0);
-        MRightShooter.setPower(0);
-    }
-    public void DriveForwardEncoders(double power, int distance)
-    {
-        //resets encoder count of the right motor
-        MLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets left motor ro run to a target position using encoders and stop with brakes on
-        MRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position using encoders and stop with brakes on
-        MLeft.setTargetPosition(-distance);
-        MRight.setTargetPosition(distance);
-        MLeft.setPower(power);
-        MRight.setPower(power);
-        MLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //sets left motor ro run to a target position using encoders and stop with brakes on
-        MRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (opModeIsActive() && MLeft.isBusy() && MRight.isBusy())
-        {
-            telemetry.addData("encoder-Left", MLeft.getCurrentPosition() + " busy=" + MLeft.isBusy());
-            telemetry.addData("encoder-Right", MRight.getCurrentPosition() + " busy=" + MRight.isBusy());
-
-            telemetry.update();
-            idle();
-        }
-        MLeft.setPower(0);
-        MRight.setPower(0);
-        MLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //resets encoder count of left motor
-        MRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //resets encoder count of the right motor
-        MLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets left motor ro run to a target position usiong encoders and stop with brakes on
-        MRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position usiong encoders and stop with brakes on
-
-    }
-    public void TurnEncoders(double power, int distance) //LEFT IS POSITIVE
-    {
-        //resets encoder count of the right motor
-        MLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets left motor ro run to a target position using encoders and stop with brakes on
-        MRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position using encoders and stop with brakes on
-        MLeft.setTargetPosition(distance);
-        MRight.setTargetPosition(distance);
-        MLeft.setPower(power);
-        MRight.setPower(power);
-        MLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //sets left motor ro run to a target position using encoders and stop with brakes on
-        MRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (opModeIsActive() && MLeft.isBusy() && MRight.isBusy())
-        {
-            telemetry.addData("encoder-Left", MLeft.getCurrentPosition() + " busy=" + MLeft.isBusy());
-            telemetry.addData("encoder-Right", MRight.getCurrentPosition() + " busy=" + MRight.isBusy());
-
-            telemetry.update();
-            idle();
-        }
-        MLeft.setPower(0);
-        MRight.setPower(0);
-        MLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //resets encoder count of left motor
-        MRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //resets encoder count of the right motor
-        MLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets left motor ro run to a target position usiong encoders and stop with brakes on
-        MRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position usiong encoders and stop with brakes on
-
-    }
-    public void TurnRightEncoders(double power, int distance)
-    {
-        MLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //resets encoder count of the right motor
-        MLeft.setDirection(DcMotor.Direction.FORWARD);
-        MRight.setDirection(DcMotor.Direction.FORWARD);
-        MLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets left motor ro run to a target position using encoders and stop with brakes on
-        MRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position using encoders and stop with brakes on
-        MLeft.setTargetPosition(distance);
-        MRight.setTargetPosition(distance);
-        MLeft.setPower(power);
-        MRight.setPower(power*0.978);
-        MLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //sets left motor ro run to a target position using encoders and stop with brakes on
-        MRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (opModeIsActive() && ( MLeft.isBusy() || MRight.isBusy()))
-        {
-            telemetry.addData("encoder-Left", MLeft.getCurrentPosition() + " busy=" + MLeft.isBusy());
-            telemetry.addData("encoder-Right", MRight.getCurrentPosition() + " busy=" + MRight.isBusy());
-
-            telemetry.update();
-            idle();
-        }
-        MLeft.setPower(0);
-        MRight.setPower(0);
-        MLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //resets encoder count of left motor
-        MRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //resets encoder count of the right motor
-        MLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets left motor ro run to a target position usiong encoders and stop with brakes on
-        MRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position usiong encoders and stop with brakes on
-
-    }
-    public void TurnLeftEncoders(double power, int distance)
-    {
-        MLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MLeft.setDirection(DcMotor.Direction.REVERSE);
-        MRight.setDirection(DcMotor.Direction.REVERSE);
-        //resets encoder count of the right motor
-        MLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets left motor ro run to a target position using encoders and stop with brakes on
-        MRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position using encoders and stop with brakes on
-        MLeft.setTargetPosition(distance);
-        MRight.setTargetPosition(distance);
-        MLeft.setPower(power);
-        MRight.setPower(power*0.978);
-        MLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        //sets left motor ro run to a target position using encoders and stop with brakes on
-        MRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (opModeIsActive() && ( MLeft.isBusy() || MRight.isBusy()))
-        {
-            telemetry.addData("encoder-Left", MLeft.getCurrentPosition() + " busy=" + MLeft.isBusy());
-            telemetry.addData("encoder-Right", MRight.getCurrentPosition() + " busy=" + MRight.isBusy());
-
-            telemetry.update();
-            idle();
-        }
-        MLeft.setPower(0);
-        MRight.setPower(0);
-        MLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //resets encoder count of left motor
-        MRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        //resets encoder count of the right motor
-        MLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets left motor ro run to a target position usiong encoders and stop with brakes on
-        MRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position usiong encoders and stop with brakes on
-
-    }
-    public void IntakeEncoder(double power, int distance)
-    {
-        //resets encoder count of the right motor
-        MIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position using encoders and stop with brakes on
-        MIntake.setTargetPosition(distance);
-        MIntake.setPower(power);
-        MIntake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (opModeIsActive() && MIntake.isBusy())
-        {
-            telemetry.addData("encoder-Intake", MIntake.getCurrentPosition() + " busy=" + MIntake.isBusy());
-
-            telemetry.update();
-            idle();
-        }
-        MIntake.setPower(0);
-        MIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //resets encoder count of the right motor
-        MIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position usiong encoders and stop with brakes on
-
-    }
-    public void ArmEncoder(double power, int distance)
-    {
-        //resets encoder count of the right motor
-        MArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position using encoders and stop with brakes on
-        MArm.setTargetPosition(distance);
-        MArm.setPower(power);
-        MArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        MArm.setPower(0);
-        MArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //resets encoder count of the right motor
-        MArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position usiong encoders and stop with brakes on
-
-    }
-    public void ShootOne(){ //shoot one ring
-        //shooting code
-
-
-
-        Hopper.setPosition(0.94); //set arm back
-
-        MLeftShooter.setPower(-Constants.powerconstant/voltage);
-        MRightShooter.setPower(Constants.powerconstant/voltage);
-        wait(1000);
-        //shoot the ring
-        Hopper.setPosition(0.83);
-        wait(200);
-        Hopper.setPosition(0.94); // bring the arm back
-        MLeftShooter.setPower(0);
-        MRightShooter.setPower(0);
-
-    }  private int getAngle()
-    {
-        // We experimentally determined the Z axis is the axis we want to use for heading angle.
-        // We have to process the angle because the imu works in euler angles so the Z axis is
-        // returned as 0 to +180 or 0 to -180 rolling back to -179 or +179 when rotation passes
-        // 180 degrees. We detect this transition and track the total cumulative angle of rotation.
-
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
-        int angle = (int)angles.firstAngle;
-        if(angle <0){
-            angle += 360;
-        }
-        return angle;
-    }
-    public void correct180(){
-        MLeft.setDirection(DcMotor.Direction.FORWARD);
-        MRight.setDirection(DcMotor.Direction.FORWARD);
-        while(getAngle()!= initialHeading){
-            if(getAngle()< initialHeading){
-                MLeft.setPower(0.3);
-                MRight.setPower(0.3);
-            } else if(getAngle() > initialHeading) {
-                MLeft.setPower(-0.3);
-                MRight.setPower(-0.3);
-            } else {
-                MLeft.setPower(0);
-                MRight.setPower(0);
-                break;}
-            telemetry.addData("Heading ", getAngle());
-            telemetry.update();
-        }
-        MLeft.setPower(0);
-        MRight.setPower(0);
-        wait(100);
-    }
-    public void turnGyro(int angle) { // positive is LEFT, negative is RIGHT
-        MLeft.setDirection(DcMotor.Direction.FORWARD);
-        MRight.setDirection(DcMotor.Direction.FORWARD);
-        int currentAngle = (int) getAngle();
-        int targetAngle = currentAngle + angle;
-        while(getAngle()!= targetAngle){
-            telemetry.addData("current heading:", currentAngle);
-            telemetry.update();
-            if(currentAngle < targetAngle){
-                MLeft.setPower(-0.5);
-                MRight.setPower(-0.5);
-            } else if(currentAngle > targetAngle) {
-                MLeft.setPower(0.5);
-                MRight.setPower(0.5);
-            } else {
-                MLeft.setPower(0);
-                MRight.setPower(0);
-                break;}
-        }
-    }
 }
