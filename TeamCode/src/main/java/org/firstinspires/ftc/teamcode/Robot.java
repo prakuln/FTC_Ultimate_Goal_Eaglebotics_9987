@@ -1,7 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
 
 public class Robot {
     public static DcMotor MArm;
@@ -16,7 +21,7 @@ public class Robot {
     public static Servo LClaw;
     public static Servo RClaw;
     public static Servo Cam;
-
+    public static MyMecanumDrive drive;
     public static void wait(int ms)
     {
         try
@@ -29,14 +34,14 @@ public class Robot {
         }
     }
     public static void MechanumDriveControl(double RX, double RY, double LX){
-        leftFront.setDirection(DcMotor.Direction.REVERSE);
-        leftRear.setDirection(DcMotor.Direction.REVERSE);
-        rightFront.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.FORWARD);
-        leftFront.setPower((RX - RY + LX)*Constants.speed);
-        leftRear.setPower((RX - RY - LX)*Constants.speed);
-        rightFront.setPower((RX + RY + LX)*Constants.speed);
-        rightRear.setPower((RX + RY - LX)*Constants.speed);
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        leftRear.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        rightRear.setDirection(DcMotor.Direction.REVERSE);
+        leftFront.setPower((-RY + RX + LX*0.8)*Constants.speed);
+        leftRear.setPower((-RY + RX - LX)*Constants.speed);
+        rightFront.setPower((-RY - RX - LX*0.8)*Constants.speed);
+        rightRear.setPower((-RY - RX + LX)*Constants.speed);
     }
     public static void DriveForwardEncoders(double power, int distance)
     {
@@ -238,7 +243,17 @@ public class Robot {
         //sets right motor ro run to a target position usiong encoders and stop with brakes on
 
     }
-
+    public static void shooterOn(double voltage, double constant){
+        MLeftShooter.setPower(constant/voltage);
+        MRightShooter.setPower(-constant/voltage);
+    }
+    public static void shooterOff(){
+        MLeftShooter.setPower(-1);
+        MRightShooter.setPower(1);
+        wait(500);
+        MLeftShooter.setPower(0);
+        MRightShooter.setPower(0);
+    }
     public static void ShootOne(double voltage){ //shoot one ring
         //shooting code
 
@@ -246,8 +261,7 @@ public class Robot {
 
         Hopper.setPosition(0.94); //set arm back
 
-        MLeftShooter.setPower(-Constants.powerconstant/voltage);
-        MRightShooter.setPower(Constants.powerconstant/voltage);
+        shooterOn(voltage, Constants.powerconstant);
         wait(1000);
         //shoot the ring
         Hopper.setPosition(0.83);
@@ -264,8 +278,7 @@ public class Robot {
 
         Hopper.setPosition(0.945); //set arm back
 
-        MLeftShooter.setPower(-Constants.powerconstant/voltage);
-        MRightShooter.setPower(Constants.powerconstant/voltage);
+        shooterOn(voltage, Constants.powerconstant);
         wait(500);
         for(int i=0; i<3; i++){ //shoot the rings
             Hopper.setPosition(0.83);
@@ -281,8 +294,7 @@ public class Robot {
     public static void PowerShot(double voltage){
         //shooting code
         Hopper.setPosition(0.94);
-        MLeftShooter.setPower(-Constants.shotconstant/voltage);
-        MRightShooter.setPower(Constants.shotconstant/voltage);
+        shooterOn(voltage, Constants.shotconstant);
         wait(1500);
         TurnLeftEncoders(0.7, Constants.PWR_SHOT_LEFT_TURN);
         leftFront.setPower(0);
@@ -338,6 +350,156 @@ public class Robot {
     }
     public static void SpeedControl(double speedcontr){
         Constants.speed = speedcontr;
+    }
+    //METHODS FOR AUTONOMOUS
+    public static void a(double voltage){
+        goToShoot(voltage);
+        goToZone(0);
+        getWobble(0);
+        bringWobble(0);
+        goToLine(0);
+    }
+    public static void b(double voltage){
+        goToShoot(voltage);
+        shootStack(1, voltage);
+        goToZone(1);
+        getWobble(1);
+        bringWobble(1);
+        goToLine(1);
+    }
+    public static void c(double voltage){
+        goToShoot(voltage);
+        shootStack(4, voltage);
+        goToZone(4);
+        getWobble(4);
+        bringWobble(4);
+        goToLine(4);
+    }
+    public static void goToShoot(double voltage){
+        Pose2d Pose = new Pose2d(Coordinates.start.getX(), Coordinates.start.getY(), Coordinates.start.getHeading());
+        Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                .splineTo(new Vector2d(Coordinates.auto_point.getX(), Coordinates.auto_point.getY()), Coordinates.auto_point.getHeading())
+                .splineTo(new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY()), Coordinates.shoot.getHeading())
+                .build();
+        Robot.shooterOn(voltage, Constants.powerconstant);
+        drive.followTrajectory(trajectory);
+        Robot.ShootGoal(voltage);
+    }
+    public static void shootStack(int state, double voltage){//1 is B, 4 is C (in A there is no stack)
+        if(state ==1){
+           // *TODO Code going back and intaking
+        } else if(state ==4){
+            // *TODO Code going back and intaking
+        }
+        Pose2d Pose = new Pose2d(Coordinates.start.getX(), Coordinates.start.getY(), Coordinates.start.getHeading());
+        Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                .splineTo(new Vector2d(Coordinates.auto_point.getX(), Coordinates.auto_point.getY()), Coordinates.auto_point.getHeading())
+                .splineTo(new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY()), Coordinates.shoot.getHeading())
+                .build();
+        Robot.shooterOn(voltage, Constants.powerconstant);
+        drive.followTrajectory(trajectory);
+        Robot.ShootGoal(voltage);
+    }
+    public static void goToZone(int state){
+        if (state == 0) { //A
+            Pose2d Pose = new Pose2d(Coordinates.shoot.getX(), Coordinates.shoot.getY(), Coordinates.shoot.getHeading());
+            Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                    .splineTo(new Vector2d(Coordinates.a.getX(), Coordinates.a.getY()), Coordinates.a.getHeading())
+                    .build();
+            drive.followTrajectory(trajectory);
+
+        }else if(state ==1){//B
+            Pose2d Pose = new Pose2d(Coordinates.shoot.getX(), Coordinates.shoot.getY(), Coordinates.shoot.getHeading());
+            Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                    .splineTo(new Vector2d(Coordinates.b.getX(), Coordinates.b.getY()), Coordinates.b.getHeading())
+                    .build();
+            drive.followTrajectory(trajectory);
+
+        }else if(state ==4){//C
+            Pose2d Pose = new Pose2d(Coordinates.shoot.getX(), Coordinates.shoot.getY(), Coordinates.shoot.getHeading());
+            Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                    .splineTo(new Vector2d(Coordinates.c.getX(), Coordinates.c.getY()), Coordinates.c.getHeading())
+                    .build();
+            drive.followTrajectory(trajectory);
+
+        }
+        ArmDown();
+        openArm();
+    }
+    public static void getWobble(int state){ //0 is A, 1 is B, 4 is C
+        if (state == 0) { //A
+            Pose2d Pose = new Pose2d(Coordinates.a.getX(), Coordinates.a.getY(), Coordinates.a.getHeading());
+            Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                    .splineTo(new Vector2d(Coordinates.wobble.getX(), Coordinates.wobble.getY()), Coordinates.wobble.getHeading())
+                    .build();
+            drive.followTrajectory(trajectory);
+
+        }else if(state ==1){//B
+            Pose2d Pose = new Pose2d(Coordinates.b.getX(), Coordinates.b.getY(), Coordinates.b.getHeading());
+            Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                    .splineTo(new Vector2d(Coordinates.wobble.getX(), Coordinates.wobble.getY()), Coordinates.wobble.getHeading())
+                    .build();
+            drive.followTrajectory(trajectory);
+
+        }else if(state ==4){//C
+            Pose2d Pose = new Pose2d(Coordinates.c.getX(), Coordinates.c.getY(), Coordinates.c.getHeading());
+            Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                    .splineTo(new Vector2d(Coordinates.wobble.getX(), Coordinates.wobble.getY()), Coordinates.wobble.getHeading())
+                    .build();
+            drive.followTrajectory(trajectory);
+
+        }
+        closeArm();
+    }
+    public static void bringWobble(int state){//0 is A, 1 is B, 4 is C
+        if (state == 0) { //A
+            Pose2d Pose = new Pose2d(Coordinates.wobble.getX(), Coordinates.wobble.getY(), Coordinates.wobble.getHeading());
+            Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                    .splineTo(new Vector2d(Coordinates.a.getX(), Coordinates.a.getY()), Coordinates.a.getHeading())
+                    .build();
+            drive.followTrajectory(trajectory);
+
+        }else if(state ==1){//B
+            Pose2d Pose = new Pose2d(Coordinates.wobble.getX(), Coordinates.wobble.getY(), Coordinates.wobble.getHeading());
+            Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                    .splineTo(new Vector2d(Coordinates.b.getX(), Coordinates.b.getY()), Coordinates.b.getHeading())
+                    .build();
+            drive.followTrajectory(trajectory);
+
+        }else if(state ==4){//C
+            Pose2d Pose = new Pose2d(Coordinates.wobble.getX(), Coordinates.wobble.getY(), Coordinates.wobble.getHeading());
+            Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                    .splineTo(new Vector2d(Coordinates.c.getX(), Coordinates.c.getY()), Coordinates.c.getHeading())
+                    .build();
+            drive.followTrajectory(trajectory);
+
+        }
+        openArm();
+    }
+    public static void goToLine(int state){
+        if (state == 0) { //A
+            Pose2d Pose = new Pose2d(Coordinates.a.getX(), Coordinates.a.getY(), Coordinates.a.getHeading());
+            Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                    .splineTo(new Vector2d(Coordinates.line.getX(), Coordinates.line.getY()), Coordinates.line.getHeading())
+                    .build();
+            drive.followTrajectory(trajectory);
+
+        }else if(state ==1){//B
+            Pose2d Pose = new Pose2d(Coordinates.b.getX(), Coordinates.b.getY(), Coordinates.b.getHeading());
+            Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                    .splineTo(new Vector2d(Coordinates.line.getX(), Coordinates.line.getY()), Coordinates.line.getHeading())
+                    .build();
+            drive.followTrajectory(trajectory);
+
+        }else if(state ==4){//C
+            Pose2d Pose = new Pose2d(Coordinates.c.getX(), Coordinates.c.getY(), Coordinates.c.getHeading());
+            Trajectory trajectory = drive.trajectoryBuilder(Pose)
+                    .splineTo(new Vector2d(Coordinates.line.getX(), Coordinates.line.getY()), Coordinates.line.getHeading())
+                    .build();
+            drive.followTrajectory(trajectory);
+
+        }
+
     }
 }
 

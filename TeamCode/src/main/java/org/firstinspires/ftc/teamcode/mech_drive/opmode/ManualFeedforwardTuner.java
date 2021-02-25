@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.RobotLog;
 
-import org.firstinspires.ftc.teamcode.mech_drive.MyTankDrive;
+import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
 
 import java.util.Objects;
 
@@ -42,13 +42,13 @@ import static org.firstinspires.ftc.teamcode.mech_drive.DriveConstants.kV;
  * control back to the tuning process.
  */
 @Config
-@Autonomous(group = "drive")
+@Autonomous(group = "roadrunner_calibration")
 public class ManualFeedforwardTuner extends LinearOpMode {
     public static double DISTANCE = 72; // in
 
     private FtcDashboard dashboard = FtcDashboard.getInstance();
 
-    private MyTankDrive drive;
+    private MyMecanumDrive drive;
 
     enum Mode {
         DRIVER_MODE,
@@ -72,7 +72,7 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
-        drive = new MyTankDrive(hardwareMap);
+        drive = new MyMecanumDrive(hardwareMap);
 
         mode = Mode.TUNING_MODE;
 

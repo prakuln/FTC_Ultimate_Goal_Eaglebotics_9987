@@ -4,46 +4,40 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "TestHardare", group = "")
+@TeleOp(name = "TestHardare", group = "OpModes")
 public class TestHardware extends LinearOpMode {
-    public static DcMotor leftFront;
-    public static DcMotor leftRear;
-    public static DcMotor rightFront;
-    public static DcMotor rightRear;
-    private DcMotor MRightShooter;
-    private DcMotor MLeftShooter;
-    private DcMotor MIntake;
-    private DcMotor MArm;
-    private Servo LClaw;
-    private Servo RClaw;
-    private Servo Cam;
-    private Servo Hopper;
     @Override
     public void runOpMode() throws InterruptedException {
         Robot.leftFront = hardwareMap.dcMotor.get("leftFront");
         Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
         Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
         Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        MLeftShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        MRightShooter = hardwareMap.dcMotor.get("MRightShooter");
-        MIntake = hardwareMap.dcMotor.get("MIntake");
-        MArm = hardwareMap.dcMotor.get("MArm");
-        LClaw = hardwareMap.servo.get("LClaw");
-        RClaw = hardwareMap.servo.get("RClaw");
-        Cam = hardwareMap.servo.get("Cam");
-        Hopper = hardwareMap.servo.get("Hopper");
+        Robot.MLeftShooter = hardwareMap.dcMotor.get("MLeftShooter");
+        Robot.MRightShooter = hardwareMap.dcMotor.get("MRightShooter");
+        Robot.MIntake = hardwareMap.dcMotor.get("MIntake");
+        Robot.MArm = hardwareMap.dcMotor.get("MArm");
+        Robot.LClaw = hardwareMap.servo.get("LClaw");
+        Robot.RClaw = hardwareMap.servo.get("RClaw");
+        Robot.Cam = hardwareMap.servo.get("Cam");
+        Robot.Hopper = hardwareMap.servo.get("Hopper");
         waitForStart();
         if (opModeIsActive()) {
 
 
             while (opModeIsActive()) {
-                leftFront.setPower(gamepad1.left_stick_y);
-                leftRear.setPower(gamepad1.left_stick_x);
-                rightFront.setPower(gamepad1.right_stick_y);
-                rightRear.setPower(gamepad1.right_stick_x);
+                double LY = gamepad1.left_stick_y;
+                double RY = gamepad1.right_stick_y;
+                double LX = gamepad1.left_stick_x;
+                double RX = gamepad1.right_stick_x;
+                Robot.leftFront.setPower(LY);
+                Robot.leftRear.setPower(LX);
+                Robot.rightFront.setPower(RY);
+                Robot.rightRear.setPower(RX);
+                if(gamepad1.dpad_up) Robot.MLeftShooter.setPower(1);
+                if(gamepad1.dpad_down )Robot.MRightShooter.setPower(1);
+                if(gamepad1.dpad_left) Robot.MArm.setPower(1);
+                if(gamepad1.dpad_right )Robot.MIntake.setPower(1);
             }
         }
     }

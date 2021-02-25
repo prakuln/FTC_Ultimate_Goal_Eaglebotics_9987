@@ -6,7 +6,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.mech_drive.MyTankDrive;
+import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
 
 /*
  * Op mode for preliminary tuning of the follower PID coefficients (located in the drive base
@@ -22,13 +22,13 @@ import org.firstinspires.ftc.teamcode.mech_drive.MyTankDrive;
  * These coefficients can be tuned live in dashboard.
  */
 @Config
-@Autonomous(group = "drive")
+@Autonomous(group = "roadrunner_calibration")
 public class FollowerPIDTuner extends LinearOpMode {
     public static double DISTANCE = 48; // in
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MyTankDrive drive = new MyTankDrive(hardwareMap);
+        MyMecanumDrive drive = new MyMecanumDrive(hardwareMap);
 
         Pose2d startPose = new Pose2d(-DISTANCE / 2, -DISTANCE / 2, 0);
 

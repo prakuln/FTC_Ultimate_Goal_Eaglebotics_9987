@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.mech_drive.MyTankDrive;
+import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
 
 import java.util.Objects;
 
@@ -20,7 +20,7 @@ import java.util.Objects;
  */
 
 @Config
-@Autonomous(group = "drive")
+@Autonomous(group = "roadrunner_calibration")
 public class MaxAngularVeloTuner extends LinearOpMode {
     public static double RUNTIME = 4.0;
 
@@ -29,7 +29,7 @@ public class MaxAngularVeloTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MyTankDrive drive = new MyTankDrive(hardwareMap);
+        MyMecanumDrive drive = new MyMecanumDrive(hardwareMap);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

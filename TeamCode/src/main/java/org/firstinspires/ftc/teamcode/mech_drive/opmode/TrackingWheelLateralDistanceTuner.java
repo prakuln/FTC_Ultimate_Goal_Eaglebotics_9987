@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.RobotLog;
 
-import org.firstinspires.ftc.teamcode.mech_drive.MyTankDrive;
+import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
 import org.firstinspires.ftc.teamcode.mech_drive.StandardTrackingWheelLocalizer;
 
 /**
@@ -62,13 +62,13 @@ import org.firstinspires.ftc.teamcode.mech_drive.StandardTrackingWheelLocalizer;
  * precision. The heading should still line up.
  */
 @Config
-@TeleOp(group = "drive")
+@TeleOp(group = "roadrunner_calibration")
 public class TrackingWheelLateralDistanceTuner extends LinearOpMode {
     public static int NUM_TURNS = 10;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        MyTankDrive drive = new MyTankDrive(hardwareMap);
+        MyMecanumDrive drive = new MyMecanumDrive(hardwareMap);
 
         if (!(drive.getLocalizer() instanceof StandardTrackingWheelLocalizer)) {
             RobotLog.setGlobalErrorMsg("StandardTrackingWheelLocalizer is not being set in the "

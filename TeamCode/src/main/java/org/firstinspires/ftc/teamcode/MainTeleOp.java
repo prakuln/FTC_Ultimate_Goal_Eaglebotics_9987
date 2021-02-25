@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-@TeleOp(name = "MainTeleOp", group = "")
+@TeleOp(name = "MainTeleOp", group = "OpModes")
 public class MainTeleOp extends LinearOpMode {
     BNO055IMU imu;
     Orientation angles;

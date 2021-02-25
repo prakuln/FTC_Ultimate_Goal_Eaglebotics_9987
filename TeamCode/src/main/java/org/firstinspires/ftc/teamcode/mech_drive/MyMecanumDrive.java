@@ -58,10 +58,10 @@ import static org.firstinspires.ftc.teamcode.mech_drive.DriveConstants.kV;
  */
 @Config
 public class MyMecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(5, 0, 0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(10, 0, 0);
 
-    public static double LATERAL_MULTIPLIER = 1;
+    public static double LATERAL_MULTIPLIER = 41.5/44.5;
 
     public static double VX_WEIGHT = 1;
     public static double VY_WEIGHT = 1;
@@ -163,7 +163,10 @@ public class MyMecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDri
         }
 
         // TODO: reverse any motors using DcMotor.setDirection()
-
+        leftFront.setDirection(DcMotor.Direction.FORWARD);
+        leftRear.setDirection(DcMotor.Direction.FORWARD);
+        rightFront.setDirection(DcMotor.Direction.REVERSE);
+        rightRear.setDirection(DcMotor.Direction.REVERSE);
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
     }

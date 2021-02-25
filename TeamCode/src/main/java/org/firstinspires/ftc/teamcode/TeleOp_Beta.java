@@ -2,13 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 //THIS IS A BETA VERSION FOR THE TELEOP CODE! ALL TESTINGS OCCUR HERE. NOT FOR USE IN COMPETITIONS!
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
-@TeleOp(name = "TeleOp_Beta", group = "")
+@TeleOp(name = "TeleOp_Beta", group = "OpModes")
 public class TeleOp_Beta extends LinearOpMode {
-    BNO055IMU imu;
     private VoltageSensor ExpansionHub1_VoltageSensor;
     float RstickX;
     float RstickY;
@@ -34,17 +32,6 @@ public class TeleOp_Beta extends LinearOpMode {
         Robot.Cam.setPosition(0.2);
         Robot.Hopper.setPosition(0.94);
         Robot.openArm();
-        BNO055IMU.Parameters imuParameters;
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        // Create new IMU Parameters object.
-        imuParameters = new BNO055IMU.Parameters();
-        // Use degrees as angle unit.
-        imuParameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        // Disable logging.
-        imuParameters.loggingEnabled = false;
-        // Initialize IMU.
-        imu.initialize(imuParameters);
-        // Put initialization blocks here.
         waitForStart();
         if (opModeIsActive()) {
             // Put run blocks here.
@@ -55,15 +42,10 @@ public class TeleOp_Beta extends LinearOpMode {
                 Robot.Hopper.setPosition(0.94);
                 Robot.MechanumDriveControl(gamepad1.right_stick_x*Constants.turnpower, gamepad1.right_stick_y,  gamepad1.left_stick_x);
                 if (gamepad1.y) {
-                    Robot.MLeftShooter.setPower(-1);
-                    Robot.MRightShooter.setPower(0);
+                    Robot.shooterOn(ExpansionHub1_VoltageSensor.getVoltage(), Constants.powerconstant);
                 }
                 if (gamepad1.a) {
-                    Robot.MLeftShooter.setPower(Constants.powerconstant/ExpansionHub1_VoltageSensor.getVoltage());
-                    Robot.MRightShooter.setPower(-Constants.powerconstant/ExpansionHub1_VoltageSensor.getVoltage());
-                    Robot.wait(500);
-                    Robot.MLeftShooter.setPower(0);
-                    Robot.MRightShooter.setPower(0);
+                    Robot.shooterOff();
                 }
                 if (gamepad1.left_bumper){ //code for speed change
                    Robot.SpeedControl(0.6);
@@ -102,7 +84,7 @@ public class TeleOp_Beta extends LinearOpMode {
                     Robot.openArm();
                 }
 
-                Robot.MIntake.setPower(-LStick);
+                Robot.MIntake.setPower(-gamepad1.left_stick_y);
 
             }
 
