@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 public class Constants {
     public static final double basevoltage = 13.5; //EDIT THIS TO CHANGE THE BASE VOLTAGE
     public static double speed = 1; //Speed Control
-    public static final double targetshooterpower = 0.44; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
+    public static final double targetshooterpower = 0.43;    //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER
     public static final double targetshotpower = 0.38; //EDIT THIS TO CHANGE THE POWER OF THE SHOOTER FOR THE POWER SHOT
     public static final double turnpower = 0.7; //Turning Power
     public static final double powerconstant = basevoltage*targetshooterpower;

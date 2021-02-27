@@ -32,7 +32,7 @@ public class Auto_Beta extends LinearOpMode {
     private TFObjectDetector tfod;
 
     @Override
-    public void runOpMode() {
+   public void runOpMode(){
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -52,7 +52,7 @@ public class Auto_Beta extends LinearOpMode {
         Robot.Hopper = hardwareMap.servo.get("Hopper");
         Robot.Hopper.setPosition(0.92);
         Robot.closeArm();
-        Robot.Cam.setPosition(0.9);
+        Robot.Cam.setPosition(0.915);
         Robot.drive = new MyMecanumDrive(hardwareMap);
 
         if (tfod != null) {
@@ -79,6 +79,7 @@ public class Auto_Beta extends LinearOpMode {
                             telemetry.addData("TFOD", "No items detected.");
                             telemetry.addData("Target Zone", "A");
                             Robot.a(ExpansionHub1_VoltageSensor.getVoltage());
+                            Robot.setEndPose();
                         } else {
                             // list is not empty.
                             // step through the list of recognitions and display boundary info.
@@ -94,9 +95,11 @@ public class Auto_Beta extends LinearOpMode {
                                 if (recognition.getLabel().equals("Single")) {
                                     telemetry.addData("Target Zone", "B");
                                     Robot.b(ExpansionHub1_VoltageSensor.getVoltage());
+                                    Robot.setEndPose();
                                 } else if (recognition.getLabel().equals("Quad")) {
                                     telemetry.addData("Target Zone", "C");
                                     Robot.c(ExpansionHub1_VoltageSensor.getVoltage());
+                                    Robot.setEndPose();
                                 } else {
                                     telemetry.addData("Target Zone", "UNKNOWN");
                                 }

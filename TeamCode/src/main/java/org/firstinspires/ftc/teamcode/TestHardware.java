@@ -34,10 +34,12 @@ public class TestHardware extends LinearOpMode {
                 Robot.leftRear.setPower(LX);
                 Robot.rightFront.setPower(RY);
                 Robot.rightRear.setPower(RX);
-                if(gamepad1.dpad_up) Robot.MLeftShooter.setPower(1);
-                if(gamepad1.dpad_down )Robot.MRightShooter.setPower(1);
-                if(gamepad1.dpad_left) Robot.MArm.setPower(1);
-                if(gamepad1.dpad_right )Robot.MIntake.setPower(1);
+                if(gamepad1.dpad_up) Robot.ArmDown();
+                if(gamepad1.dpad_down )Robot.ArmUp();
+                if(gamepad1.dpad_left) Robot.openArm();
+                if(gamepad1.dpad_right )Robot.closeArm();
+                //if(gamepad1.dpad_left) Robot.MArm.setPower(1);
+                //if(gamepad1.dpad_right )Robot.MIntake.setPower(1);
             }
         }
     }
