@@ -12,17 +12,18 @@ public class TeleOp_Beta extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        Robot.leftFront = hardwareMap.dcMotor.get("leftFront");
-        Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
-        Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
-        Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        Robot.MShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        Robot.MIntake = hardwareMap.dcMotor.get("MIntake");
-        Robot.MArm = hardwareMap.dcMotor.get("MArm");
-        Robot.Claw = hardwareMap.servo.get("Claw");
-        Robot.Stopper = hardwareMap.servo.get("Stopper");
+        Robot.leftFront = hardwareMap.dcMotor.get("frontLeft");
+        Robot.leftRear = hardwareMap.dcMotor.get("backLeft");
+        Robot.rightFront = hardwareMap.dcMotor.get("frontRight");
+        Robot.rightRear = hardwareMap.dcMotor.get("backRight");
+        Robot.MShooter = hardwareMap.dcMotor.get("shooter");
+        Robot.MIntake = hardwareMap.dcMotor.get("upperIntakeMotor");
+        Robot.MRoller = hardwareMap.dcMotor.get("lowerIntakeMotor");
+        Robot.MArm = hardwareMap.dcMotor.get("wobbleArmMotor");
+        Robot.Claw = hardwareMap.servo.get("clawServo");
+        Robot.Stopper = hardwareMap.servo.get("shooterStop");
         ExpansionHub1_VoltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
-        Robot.Cam = hardwareMap.servo.get("Cam");
+        Robot.Cam = hardwareMap.servo.get("cameraServo");
         //Robot.drive = new MyMecanumDrive(hardwareMap);
         //Robot.drive.setPoseEstimate(Coordinates.end);
         Robot.Cam.setPosition(0.2);

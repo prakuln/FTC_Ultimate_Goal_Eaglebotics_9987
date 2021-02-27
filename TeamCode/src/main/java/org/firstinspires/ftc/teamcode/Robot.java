@@ -22,6 +22,7 @@ public class Robot {
     public static DcMotor rightFront;
     public static DcMotor rightRear;
     public static DcMotor MIntake;
+    public static DcMotor MRoller;
     public static DcMotor MShooter;
     public static Servo Cam;
     public static Servo Claw;
@@ -363,6 +364,7 @@ public class Robot {
         Pose2d Pose = new Pose2d(Coordinates.shoot.getX(), Coordinates.shoot.getY(), Coordinates.shoot.getHeading());
         drive.setPoseEstimate(Pose);
         MIntake.setPower(-1);
+        MRoller.setPower(-1);
         if(state ==1){
 
             Trajectory trajectory = drive.trajectoryBuilder(Pose)
@@ -408,6 +410,8 @@ public class Robot {
             wait(500);
             drive.followTrajectory(trajectory1);
         }
+        MIntake.setPower(0);
+        MRoller.setPower(0);
     }
     public static void goToZone(int state){
 

@@ -16,17 +16,18 @@ public class Roadrunner_Test extends LinearOpMode {
     private VoltageSensor ExpansionHub1_VoltageSensor;
     @Override
     public void runOpMode() throws InterruptedException {
-        Robot.leftFront = hardwareMap.dcMotor.get("leftFront");
-        Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
-        Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
-        Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        Robot.MShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        Robot.MIntake = hardwareMap.dcMotor.get("MIntake");
-        Robot.MArm = hardwareMap.dcMotor.get("MArm");
+        Robot.leftFront = hardwareMap.dcMotor.get("frontLeft");
+        Robot.leftRear = hardwareMap.dcMotor.get("backLeft");
+        Robot.rightFront = hardwareMap.dcMotor.get("frontRight");
+        Robot.rightRear = hardwareMap.dcMotor.get("backRight");
+        Robot.MShooter = hardwareMap.dcMotor.get("shooter");
+        Robot.MIntake = hardwareMap.dcMotor.get("upperIntakeMotor");
+        Robot.MRoller = hardwareMap.dcMotor.get("lowerIntakeMotor");
+        Robot.MArm = hardwareMap.dcMotor.get("wobbleArmMotor");
+        Robot.Claw = hardwareMap.servo.get("clawServo");
+        Robot.Stopper = hardwareMap.servo.get("shooterStop");
         ExpansionHub1_VoltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
-        Robot.Claw = hardwareMap.servo.get("Claw");
-        Robot.Cam = hardwareMap.servo.get("Cam");
-        Robot.Stopper = hardwareMap.servo.get("Stopper");
+        Robot.Cam = hardwareMap.servo.get("cameraServo");
         Robot.closeArm();
         Robot.Cam.setPosition(0.9);
         Robot.drive = new MyMecanumDrive(hardwareMap);
