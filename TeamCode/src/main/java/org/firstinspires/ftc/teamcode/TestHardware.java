@@ -13,14 +13,12 @@ public class TestHardware extends LinearOpMode {
         Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
         Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
         Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        Robot.MLeftShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        Robot.MRightShooter = hardwareMap.dcMotor.get("MRightShooter");
+        Robot.MShooter = hardwareMap.dcMotor.get("MLeftShooter");
         Robot.MIntake = hardwareMap.dcMotor.get("MIntake");
         Robot.MArm = hardwareMap.dcMotor.get("MArm");
-        Robot.LClaw = hardwareMap.servo.get("LClaw");
-        Robot.RClaw = hardwareMap.servo.get("RClaw");
         Robot.Cam = hardwareMap.servo.get("Cam");
-        Robot.Hopper = hardwareMap.servo.get("Hopper");
+        Robot.Claw = hardwareMap.servo.get("Claw");
+        Robot.Stopper = hardwareMap.servo.get("Stopper");
         waitForStart();
         if (opModeIsActive()) {
 

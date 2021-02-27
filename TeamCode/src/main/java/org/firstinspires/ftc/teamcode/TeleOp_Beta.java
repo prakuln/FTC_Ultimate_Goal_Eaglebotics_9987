@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
-
 @TeleOp(name = "TeleOp_Beta", group = "OpModes")
 public class TeleOp_Beta extends LinearOpMode {
     private VoltageSensor ExpansionHub1_VoltageSensor;
@@ -18,19 +16,16 @@ public class TeleOp_Beta extends LinearOpMode {
         Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
         Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
         Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        Robot.MLeftShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        Robot.MRightShooter = hardwareMap.dcMotor.get("MRightShooter");
+        Robot.MShooter = hardwareMap.dcMotor.get("MLeftShooter");
         Robot.MIntake = hardwareMap.dcMotor.get("MIntake");
         Robot.MArm = hardwareMap.dcMotor.get("MArm");
+        Robot.Claw = hardwareMap.servo.get("Claw");
+        Robot.Stopper = hardwareMap.servo.get("Stopper");
         ExpansionHub1_VoltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
-        Robot.LClaw = hardwareMap.servo.get("LClaw");
-        Robot.RClaw = hardwareMap.servo.get("RClaw");
         Robot.Cam = hardwareMap.servo.get("Cam");
-        Robot.Hopper = hardwareMap.servo.get("Hopper");
-        Robot.drive = new MyMecanumDrive(hardwareMap);
-        Robot.drive.setPoseEstimate(Coordinates.end);
+        //Robot.drive = new MyMecanumDrive(hardwareMap);
+        //Robot.drive.setPoseEstimate(Coordinates.end);
         Robot.Cam.setPosition(0.2);
-        Robot.Hopper.setPosition(0.94);
         Robot.openArm();
         waitForStart();
         if (opModeIsActive()) {
@@ -39,10 +34,7 @@ public class TeleOp_Beta extends LinearOpMode {
             while (opModeIsActive()) {
                 // Put loop blocks here.
                 telemetry.update();
-                Robot.drive.update();
-
-
-                Robot.Hopper.setPosition(0.94);
+                //Robot.drive.update();
                 Robot.MechanumDriveControl(gamepad1.right_stick_x*Constants.turnpower, gamepad1.right_stick_y,  gamepad1.left_stick_x);
                 if (gamepad1.y) {
                     Robot.shooterOn(ExpansionHub1_VoltageSensor.getVoltage(), Constants.powerconstant);

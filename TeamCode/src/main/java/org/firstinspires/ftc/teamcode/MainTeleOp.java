@@ -19,17 +19,14 @@ public class MainTeleOp extends LinearOpMode {
         Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
         Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
         Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        Robot.MLeftShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        Robot.MRightShooter = hardwareMap.dcMotor.get("MRightShooter");
+        Robot.MShooter = hardwareMap.dcMotor.get("MLeftShooter");
         Robot.MIntake = hardwareMap.dcMotor.get("MIntake");
         Robot.MArm = hardwareMap.dcMotor.get("MArm");
         ExpansionHub1_VoltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
-        Robot.LClaw = hardwareMap.servo.get("LClaw");
-        Robot.RClaw = hardwareMap.servo.get("RClaw");
+        Robot.Claw = hardwareMap.servo.get("LClaw");
         Robot.Cam = hardwareMap.servo.get("Cam");
-        Robot.Hopper = hardwareMap.servo.get("Hopper");
+        Robot.Stopper = hardwareMap.servo.get("Hopper");
         Robot.Cam.setPosition(0.2);
-        Robot.Hopper.setPosition(0.94);
         Robot.openArm();
         waitForStart();
         if (opModeIsActive()) {
@@ -38,7 +35,6 @@ public class MainTeleOp extends LinearOpMode {
             while (opModeIsActive()) {
                 // Put loop blocks here.
                 telemetry.update();
-                Robot.Hopper.setPosition(0.94);
                 Robot.MechanumDriveControl(gamepad1.right_stick_x*Constants.turnpower, gamepad1.right_stick_y,  gamepad1.left_stick_x);
                 if (gamepad1.y) {
                     Robot.shooterOn(ExpansionHub1_VoltageSensor.getVoltage(), Constants.powerconstant);

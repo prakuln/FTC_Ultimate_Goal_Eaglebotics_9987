@@ -22,12 +22,10 @@ public class Robot {
     public static DcMotor rightFront;
     public static DcMotor rightRear;
     public static DcMotor MIntake;
-    public static DcMotor MLeftShooter;
-    public static DcMotor MRightShooter;
-    public static Servo Hopper;
-    public static Servo LClaw;
-    public static Servo RClaw;
+    public static DcMotor MShooter;
     public static Servo Cam;
+    public static Servo Claw;
+    public static Servo Stopper;
     public static MyMecanumDrive drive;
     public static void wait(int ms)
     {
@@ -251,95 +249,49 @@ public class Robot {
 
     }
     public static void shooterOn(double voltage, double constant){
-        MLeftShooter.setPower(constant/voltage);
-        MRightShooter.setPower(-constant/voltage);
+        MShooter.setPower(constant/voltage);
     }
     public static void shooterOff(){
-        MLeftShooter.setPower(-1);
-        MRightShooter.setPower(1);
+        MShooter.setPower(-1);
         wait(500);
-        MLeftShooter.setPower(0);
-        MRightShooter.setPower(0);
+        MShooter.setPower(0);
     }
     public static void ShootOne(double voltage){ //shoot one ring
         //shooting code
 
 
-
-        Hopper.setPosition(0.94); //set arm back
-
         shooterOn(voltage, Constants.powerconstant);
         wait(1000);
         //shoot the ring
-        Hopper.setPosition(0.83);
-        wait(200);
-        Hopper.setPosition(0.94); // bring the arm back
-        MLeftShooter.setPower(0);
-        MRightShooter.setPower(0);
+        //TODO: Write code to shoot the ring out
+        Stopper.setPosition(0);
+        MIntake.setPower(1);
+        wait(1000);
+        MIntake.setPower(0);
+        Stopper.setPosition(1);
+        MShooter.setPower(0);
 
     }
     public static void ShootGoal(double voltage){
         //shooting code
-
-
-
-        Hopper.setPosition(0.945); //set arm back
-
         shooterOn(voltage, Constants.powerconstant);
         wait(500);
-        for(int i=0; i<3; i++){ //shoot the rings
-            Hopper.setPosition(0.83);
-            wait(300);
-            Hopper.setPosition(0.94);
-            wait(300);
-        }
-        Hopper.setPosition(0.94); // bring the arm back
-        MLeftShooter.setPower(0);
-        MRightShooter.setPower(0);
+        Stopper.setPosition(1);
+        MIntake.setPower(1);
+        wait(1000);
+        MIntake.setPower(0);
+        Stopper.setPosition(0);
+        MShooter.setPower(0);
 
     }
     public static void PowerShot(double voltage){
-        //shooting code
-        Hopper.setPosition(0.94);
-        shooterOn(voltage, Constants.shotconstant);
-        wait(1500);
-        TurnLeftEncoders(0.7, Constants.PWR_SHOT_LEFT_TURN);
-        leftFront.setPower(0);
-        leftRear.setPower(0);
-        rightFront.setPower(0);
-        rightRear.setPower(0);
-        wait(500);
-        Hopper.setPosition(0.83);
-        wait(200);
-        Hopper.setPosition(0.94);
-        TurnRightEncoders(0.7, Constants.PWR_SHOT_CENTER_TURN);
-        leftFront.setPower(0);
-        leftRear.setPower(0);
-        rightFront.setPower(0);
-        rightRear.setPower(0);
-        wait(500);
-        Hopper.setPosition(0.83);
-        wait(200);
-        Hopper.setPosition(0.94);
-        TurnRightEncoders(0.7, Constants.PWR_SHOT_RIGHT_TURN);
-        leftFront.setPower(0);
-        leftRear.setPower(0);
-        rightFront.setPower(0);
-        rightRear.setPower(0);
-        wait(500);
-        Hopper.setPosition(0.83);
-        wait(200);
-        Hopper.setPosition(0.94);
-        MLeftShooter.setPower(0);
-        MRightShooter.setPower(0);
+
     }
     public static void openArm(){
-        Robot.LClaw.setPosition(0.6);
-        Robot.RClaw.setPosition(1);
+        Claw.setPosition(1);
     }
     public static void closeArm(){
-        Robot.LClaw.setPosition(0);
-        Robot.RClaw.setPosition(0);
+        Claw.setPosition(0);
     }
     public static void ArmUp(){
 

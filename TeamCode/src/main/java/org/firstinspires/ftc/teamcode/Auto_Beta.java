@@ -41,20 +41,16 @@ public class Auto_Beta extends LinearOpMode {
         Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
         Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
         Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        Robot.MLeftShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        Robot.MRightShooter = hardwareMap.dcMotor.get("MRightShooter");
+        Robot.MShooter = hardwareMap.dcMotor.get("MLeftShooter");
         Robot.MIntake = hardwareMap.dcMotor.get("MIntake");
+        Robot.Claw = hardwareMap.servo.get("Claw");
+        Robot.Stopper = hardwareMap.servo.get("Stopper");
         Robot.MArm = hardwareMap.dcMotor.get("MArm");
         ExpansionHub1_VoltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
-        Robot.LClaw = hardwareMap.servo.get("LClaw");
-        Robot.RClaw = hardwareMap.servo.get("RClaw");
         Robot.Cam = hardwareMap.servo.get("Cam");
-        Robot.Hopper = hardwareMap.servo.get("Hopper");
-        Robot.Hopper.setPosition(0.92);
         Robot.closeArm();
         Robot.Cam.setPosition(0.915);
         Robot.drive = new MyMecanumDrive(hardwareMap);
-
         if (tfod != null) {
             tfod.activate();
             tfod.setZoom(1.5, 1.78);
