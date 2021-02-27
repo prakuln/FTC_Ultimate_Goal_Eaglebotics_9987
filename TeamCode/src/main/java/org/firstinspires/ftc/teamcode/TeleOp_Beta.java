@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
-
 @TeleOp(name = "TeleOp_Beta", group = "OpModes")
 public class TeleOp_Beta extends LinearOpMode {
     private VoltageSensor ExpansionHub1_VoltageSensor;
@@ -27,8 +25,8 @@ public class TeleOp_Beta extends LinearOpMode {
         Robot.RClaw = hardwareMap.servo.get("RClaw");
         Robot.Cam = hardwareMap.servo.get("Cam");
         Robot.Hopper = hardwareMap.servo.get("Hopper");
-        Robot.drive = new MyMecanumDrive(hardwareMap);
-        Robot.drive.setPoseEstimate(Coordinates.end);
+        //Robot.drive = new MyMecanumDrive(hardwareMap);
+        //Robot.drive.setPoseEstimate(Coordinates.end);
         Robot.Cam.setPosition(0.2);
         Robot.Hopper.setPosition(0.94);
         Robot.openArm();
@@ -39,7 +37,7 @@ public class TeleOp_Beta extends LinearOpMode {
             while (opModeIsActive()) {
                 // Put loop blocks here.
                 telemetry.update();
-                Robot.drive.update();
+                //Robot.drive.update();
 
 
                 Robot.Hopper.setPosition(0.94);
