@@ -29,23 +29,21 @@ public class Roadrunner_Test extends LinearOpMode {
         Robot.RClaw = hardwareMap.servo.get("RClaw");
         Robot.Cam = hardwareMap.servo.get("Cam");
         Robot.Hopper = hardwareMap.servo.get("Hopper");
-        Robot.Hopper.setPosition(0.92);
+        Robot.hopperBack();
         Robot.closeArm();
-        Robot.Cam.setPosition(0.9);
+        Robot.cameraOut();
         Robot.drive = new MyMecanumDrive(hardwareMap);
         waitForStart();
         if (isStopRequested()) return;
-        Robot.goToShoot(ExpansionHub1_VoltageSensor.getVoltage());
-        Robot.wait(1000);
-        Robot.ShootGoal(ExpansionHub1_VoltageSensor.getVoltage());
-        Robot.shootStack(1, ExpansionHub1_VoltageSensor.getVoltage());
-        Robot.wait(1000);
-        Robot.ShootOne(ExpansionHub1_VoltageSensor.getVoltage());
-        Robot.MIntake.setPower(0);
-        //Robot.goToZone(4);
-        //Robot.getWobble(4);
-        //Robot.bringWobble(4);
-        //Robot.goToLine(4);
+        //Robot.goToShoot();
+        //Robot.shootStack(1, ExpansionHub1_VoltageSensor.getVoltage());
+        //Robot.wait(1000);
+        //Robot.ShootOne(ExpansionHub1_VoltageSensor.getVoltage());
+        //Robot.MIntake.setPower(0);
+        //Robot.goToZone(0);
+        //Robot.getWobble(0);
+        //Robot.bringWobble(0);
+        //Robot.goToLine(0);
         while (!isStopRequested() && opModeIsActive()) ;
     }
 }

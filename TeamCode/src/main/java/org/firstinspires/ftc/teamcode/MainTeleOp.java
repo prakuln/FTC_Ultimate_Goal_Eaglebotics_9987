@@ -39,9 +39,9 @@ public class MainTeleOp extends LinearOpMode {
                 // Put loop blocks here.
                 telemetry.update();
                 Robot.Hopper.setPosition(0.94);
-                Robot.MechanumDriveControl(gamepad1.right_stick_x*Constants.turnpower, gamepad1.right_stick_y,  gamepad1.left_stick_x);
+                Robot.MechanumDriveControl(gamepad1.right_stick_x*Constants.turnPower, gamepad1.right_stick_y,  gamepad1.left_stick_x);
                 if (gamepad1.y) {
-                    Robot.shooterOn(ExpansionHub1_VoltageSensor.getVoltage(), Constants.powerconstant);
+                    Robot.shooterOn(Constants.powerConstant);
                 }
                 if (gamepad1.a) {
                     Robot.shooterOff();
