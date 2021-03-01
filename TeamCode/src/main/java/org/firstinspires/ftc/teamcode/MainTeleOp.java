@@ -57,15 +57,15 @@ public class MainTeleOp extends LinearOpMode {
                     Robot.SpeedControl(1);
                 }
                 if (gamepad1.x){
-                    Robot.ShootGoal(ExpansionHub1_VoltageSensor.getVoltage());
+                    Robot.ShootGoal();
 
                 }
                 if (gamepad1.b){
-                    Robot.ShootOne(ExpansionHub1_VoltageSensor.getVoltage());
+                    Robot.ShootOne();
 
                 }
                 if (gamepad1.right_bumper){ //code for shooting the power shots
-                    Robot.PowerShot(ExpansionHub1_VoltageSensor.getVoltage());
+                    Robot.PowerShot();
                 }
 
 

@@ -51,13 +51,13 @@ public class TeleOp_Beta extends LinearOpMode {
                     Robot.SpeedControl(1);
                 }
                 if (gamepad1.x){
-                    Robot.ShootGoal(Robot.getVoltage());
+                    Robot.ShootGoal();
                 }
                 if (gamepad1.b){
-                    Robot.ShootOne(Robot.getVoltage());
+                    Robot.ShootOne();
                 }
                 if (gamepad1.right_bumper){ //code for shooting the power shots
-                    Robot.PowerShot(Robot.getVoltage());
+                    Robot.PowerShot();
                 }
                 if (gamepad1.dpad_down){ // code for the arm
                     Robot.MArm.setPower(-1);

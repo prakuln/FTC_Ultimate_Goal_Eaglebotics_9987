@@ -61,60 +61,6 @@ public class Robot {
         rightFront.setPower((-RY - RX - LX*0.8)*Constants.speed);
         rightRear.setPower((-RY - RX + LX)*Constants.speed);
     }
-    public static void DriveForwardEncoders(double power, int distance)
-    {
-
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        leftRear.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
-
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        leftFront.setTargetPosition(distance);
-        leftRear.setTargetPosition(distance);
-        rightFront.setTargetPosition(distance);
-        rightRear.setTargetPosition(distance);
-
-        leftFront.setPower(power);
-        leftRear.setPower(power);
-        rightFront.setPower(power);
-        rightRear.setPower(power);
-
-        leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        while (( leftFront.isBusy() || leftRear.isBusy() || rightFront.isBusy() || rightRear.isBusy()))
-        {
-
-        }
-
-        leftFront.setPower(0);
-        leftRear.setPower(0);
-        rightFront.setPower(0);
-        rightRear.setPower(0);
-
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-    }
     public static void TurnLeftEncoders(double power, int distance)
     {
         leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -221,46 +167,6 @@ public class Robot {
         rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
-    public void IntakeEncoder(double power, int distance)
-    {
-        //resets encoder count of the right motor
-        MIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position using encoders and stop with brakes on
-        MIntake.setTargetPosition(distance);
-        MIntake.setPower(power);
-        MIntake.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while ( MIntake.isBusy())
-        {
-
-        }
-        MIntake.setPower(0);
-        MIntake.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //resets encoder count of the right motor
-        MIntake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position usiong encoders and stop with brakes on
-
-    }
-    public static void ArmEncoder(double power, int distance)
-    {
-        //resets encoder count of the right motor
-        MArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        MArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position using encoders and stop with brakes on
-        MArm.setTargetPosition(distance);
-        MArm.setPower(power);
-        MArm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        while (MArm.isBusy())
-        {
-
-        }
-        MArm.setPower(0);
-        MArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //resets encoder count of the right motor
-        MArm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //sets right motor ro run to a target position usiong encoders and stop with brakes on
-
-    }
     public static void shooterOn(double constant){
         MLeftShooter.setPower(constant/getVoltage());
         MRightShooter.setPower(-constant/getVoltage());
@@ -272,7 +178,7 @@ public class Robot {
         MLeftShooter.setPower(0);
         MRightShooter.setPower(0);
     }
-    public static void ShootOne(double voltage){ //shoot one ring
+    public static void ShootOne(){ //shoot one ring
         //shooting code
 
 
@@ -289,7 +195,7 @@ public class Robot {
         MRightShooter.setPower(0);
 
     }
-    public static void ShootGoal(double voltage){
+    public static void ShootGoal(){
         //shooting code
 
 
@@ -308,7 +214,7 @@ public class Robot {
         hopperBack(); // bring the arm back
 
     }
-    public static void PowerShot(double voltage){
+    public static void PowerShot(){
         //shooting code
         hopperBack();
         shooterOn(Constants.shotConstant);
@@ -428,7 +334,7 @@ public class Robot {
                 .build();
         Robot.shooterOn(Constants.powerConstant);
         drive.followTrajectory(trajectory);
-        ShootGoal(getVoltage());
+        ShootGoal();
         shooterOff();
     }
     public static void shootStack(int state){//1 is B, 4 is C (in A there is no stack)
@@ -457,7 +363,7 @@ public class Robot {
             wait(500);
             drive.followTrajectory(trajectory1);
             wait(500);
-            ShootOne(getVoltage());
+            ShootOne();
             MIntake.setPower(0);
             shooterOff();
         } else if(state ==4){
@@ -483,7 +389,7 @@ public class Robot {
             wait(500);
             drive.followTrajectory(trajectory1);
             wait(500);
-            ShootGoal(getVoltage());
+            ShootGoal();
             MIntake.setPower(0);
             shooterOff();
         }
