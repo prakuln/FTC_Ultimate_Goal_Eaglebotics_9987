@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.constraints.AngularVelocityConstraint;
@@ -26,19 +27,19 @@ public class Robot {
     public static final String VUFORIA_KEY =
             "AW7vQeL/////AAABmZpV+TNdzEfigTTiCS83WyFkYs/PO6Vt1jU0nmyH+MkdBjFiWRCtrz2eL6Dx0LsXgcfEn4iF52EM1s86ALJgZOFpycoesjV/VDzvwjHY+b0gPTTtBwaioglg3HY1rwHz3po8fmRqtDmVqhNG+jYfmwVzi2Suygk8RM0f27sbt1rpZhl08Q+PR+sDV5LirITAa3CKsyISroBs39r+Z1M1XLOvtG0BUKxZWq9ht7z0dCR1bJ1Y2+HaaOodCxz7DZU644E+KlM0PsYidbqb/mhN+Ec17a39TPACFEVrKCYFNsLPFAkcyceJegGpYb3lHp8h/kVoBZ2cZVWq5MDlUpym/QqxhlpcJ4kWuHmGPR4TTpv/";
 
-    public static DcMotor MArm;
+    public static DcMotor mArm;
     public static DcMotor leftFront;
     public static DcMotor leftRear;
     public static DcMotor rightFront;
     public static DcMotor rightRear;
-    public static DcMotor MIntake;
-    public static DcMotor MLeftShooter;
-    public static DcMotor MRightShooter;
-    public static Servo Hopper;
-    public static Servo LClaw;
-    public static Servo RClaw;
-    public static Servo Cam;
-    public static VoltageSensor ExpansionHub1_VoltageSensor;
+    public static DcMotor mIntake;
+    public static DcMotor leftShooter;
+    public static DcMotor rightShooter;
+    public static Servo hopper;
+    public static Servo leftClaw;
+    public static Servo rightClaw;
+    public static Servo cam;
+    public static VoltageSensor voltageSensor;
     public static MyMecanumDrive drive;
     public static void wait(int ms)
     {
@@ -51,157 +52,42 @@ public class Robot {
             Thread.currentThread().interrupt();
         }
     }
-    public static void MechanumDriveControl(double RX, double RY, double LX){
+    public static void MechanumDriveControl(double RX, double RY, double LT, double RT){
         leftFront.setDirection(DcMotor.Direction.FORWARD);
         leftRear.setDirection(DcMotor.Direction.FORWARD);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
         rightRear.setDirection(DcMotor.Direction.REVERSE);
-        leftFront.setPower((-RY + RX + LX*0.8)*Constants.speed);
-        leftRear.setPower((-RY + RX - LX)*Constants.speed);
-        rightFront.setPower((-RY - RX - LX*0.8)*Constants.speed);
-        rightRear.setPower((-RY - RX + LX)*Constants.speed);
-    }
-    public static void TurnLeftEncoders(double power, int distance)
-    {
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftFront.setDirection(DcMotor.Direction.REVERSE);
-        leftRear.setDirection(DcMotor.Direction.REVERSE);
-        rightFront.setDirection(DcMotor.Direction.REVERSE);
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
-
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        leftFront.setTargetPosition(distance);
-        leftRear.setTargetPosition(distance);
-        rightFront.setTargetPosition(distance);
-        rightRear.setTargetPosition(distance);
-
-        leftFront.setPower(power);
-        leftRear.setPower(power);
-        rightFront.setPower(power);
-        rightRear.setPower(power);
-
-        leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        while (( leftFront.isBusy() || leftRear.isBusy() || rightFront.isBusy() || rightRear.isBusy()))
-        {
-
-        }
-
-        leftFront.setPower(0);
-        leftRear.setPower(0);
-        rightFront.setPower(0);
-        rightRear.setPower(0);
-
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-    }
-    public static void TurnRightEncoders(double power, int distance)
-    {
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftFront.setDirection(DcMotor.Direction.FORWARD);
-        leftRear.setDirection(DcMotor.Direction.FORWARD);
-        rightFront.setDirection(DcMotor.Direction.FORWARD);
-        rightRear.setDirection(DcMotor.Direction.FORWARD);
-
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        leftFront.setTargetPosition(distance);
-        leftRear.setTargetPosition(distance);
-        rightFront.setTargetPosition(distance);
-        rightRear.setTargetPosition(distance);
-
-        leftFront.setPower(power);
-        leftRear.setPower(power);
-        rightFront.setPower(power);
-        rightRear.setPower(power);
-
-        leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        while (( leftFront.isBusy() || leftRear.isBusy() || rightFront.isBusy() || rightRear.isBusy()))
-        {
-
-        }
-
-        leftFront.setPower(0);
-        leftRear.setPower(0);
-        rightFront.setPower(0);
-        rightRear.setPower(0);
-
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        leftFront.setPower((-RY + RX + (-LT+RT*0.8))*Constants.speed);
+        leftRear.setPower((-RY + RX - (-LT+RT))*Constants.speed);
+        rightFront.setPower((-RY - RX - (-LT+RT*0.8))*Constants.speed);
+        rightRear.setPower((-RY - RX + (-LT+RT))*Constants.speed);
     }
     public static void shooterOn(double constant){
-        MLeftShooter.setPower(constant/getVoltage());
-        MRightShooter.setPower(-constant/getVoltage());
+        leftShooter.setPower(constant/getVoltage());
+        rightShooter.setPower(-constant/getVoltage());
     }
     public static void shooterOff(){
-        MLeftShooter.setPower(-1);
-        MRightShooter.setPower(1);
+        leftShooter.setPower(-1);
+        rightShooter.setPower(1);
         wait(500);
-        MLeftShooter.setPower(0);
-        MRightShooter.setPower(0);
+        leftShooter.setPower(0);
+        rightShooter.setPower(0);
     }
     public static void ShootOne(){ //shoot one ring
         //shooting code
-
-
-
-        Hopper.setPosition(0.94); //set arm back
-
+        hopper.setPosition(0.94); //set arm back
         shooterOn(Constants.powerConstant);
         wait(1000);
         //shoot the ring
-        Hopper.setPosition(0.83);
+        hopper.setPosition(0.83);
         wait(200);
-        Hopper.setPosition(0.94); // bring the arm back
-        MLeftShooter.setPower(0);
-        MRightShooter.setPower(0);
-
+        hopper.setPosition(0.94); // bring the arm back
+        leftShooter.setPower(0);
+        rightShooter.setPower(0);
     }
     public static void ShootGoal(){
         //shooting code
-
-
-
         hopperBack(); //set arm back
-
         shooterOn(Constants.powerConstant);
         wait(500);
         for(int i=0; i<3; i++){ //shoot the rings
@@ -212,14 +98,13 @@ public class Robot {
             wait(400);
         }
         hopperBack(); // bring the arm back
-
     }
     public static void PowerShot(){
         //shooting code
         hopperBack();
         shooterOn(Constants.shotConstant);
         wait(1500);
-        TurnLeftEncoders(0.7, Constants.PWR_SHOT_LEFT_TURN);
+        drive.turn(2);
         leftFront.setPower(0);
         leftRear.setPower(0);
         rightFront.setPower(0);
@@ -229,7 +114,7 @@ public class Robot {
         hopperForward();
         wait(200);
         hopperBack();
-        TurnRightEncoders(0.7, Constants.PWR_SHOT_CENTER_TURN);
+        drive.turn(-2);
         leftFront.setPower(0);
         leftRear.setPower(0);
         rightFront.setPower(0);
@@ -239,7 +124,7 @@ public class Robot {
         hopperForward();
         wait(200);
         hopperBack();
-        TurnRightEncoders(0.7, Constants.PWR_SHOT_RIGHT_TURN);
+        drive.turn(-2);
         leftFront.setPower(0);
         leftRear.setPower(0);
         rightFront.setPower(0);
@@ -249,46 +134,42 @@ public class Robot {
         hopperForward();
         wait(200);
         hopperBack();
-        MLeftShooter.setPower(0);
-        MRightShooter.setPower(0);
+        leftShooter.setPower(0);
+        rightShooter.setPower(0);
     }
     public static void openArm(){
-        Robot.LClaw.setPosition(0.6);
-        Robot.RClaw.setPosition(1);
+        Robot.leftClaw.setPosition(0.6);
+        Robot.rightClaw.setPosition(1);
     }
     public static void closeArm(){
-        Robot.LClaw.setPosition(0);
-        Robot.RClaw.setPosition(0);
+        Robot.leftClaw.setPosition(0);
+        Robot.rightClaw.setPosition(0);
     }
     public static void hopperBack(){
-        Hopper.setPosition(0.92);
+        hopper.setPosition(0.92);
     }
     public static void hopperForward(){
-        Hopper.setPosition(0.81);
+        hopper.setPosition(0.81);
     }
     public static void cameraOut(){
-        Cam.setPosition(0.935);
+        cam.setPosition(0.935);
     }
     public static void cameraIn(){
-        Cam.setPosition(0.2);
+        cam.setPosition(0.2);
     }
     public static void ArmUp(){
-
         wait(500);
-        Robot.MArm.setPower(-1);
+        Robot.mArm.setPower(-1);
         wait(1500);
-        Robot.MArm.setPower(0);
-
+        Robot.mArm.setPower(0);
     }
     public static void ArmDown(){
-
-        Robot.MArm.setPower(1);
+        Robot.mArm.setPower(1);
         wait(1500);
-        Robot.MArm.setPower(0);
-
+        Robot.mArm.setPower(0);
     }
     public static double getVoltage(){
-        return ExpansionHub1_VoltageSensor.getVoltage();
+        return voltageSensor.getVoltage();
     }
     public static void SpeedControl(double speedcontr){
         Constants.speed = speedcontr;
@@ -326,10 +207,10 @@ public class Robot {
                 .splineTo(new Vector2d(Coordinates.auto_point.getX(), Coordinates.auto_point.getY()), Coordinates.auto_point.getHeading())
                 .splineTo(new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY()), Coordinates.shoot.getHeading())
                 .addTemporalMarker(1, () -> {
-                    MArm.setPower(1);
+                    mArm.setPower(1);
                 })
                 .addTemporalMarker(1.5, () -> {
-                    MArm.setPower(0);
+                    mArm.setPower(0);
                 })
                 .build();
         Robot.shooterOn(Constants.powerConstant);
@@ -339,9 +220,8 @@ public class Robot {
     }
     public static void shootStack(int state){//1 is B, 4 is C (in A there is no stack)
         //drive.setPoseEstimate(Coordinates.shoot);
-        MIntake.setPower(-1);
+        mIntake.setPower(-1);
         if(state ==1){
-
             Trajectory trajectory = drive.trajectoryBuilder(Coordinates.shoot)
                     .back(15, new MinVelocityConstraint(
                             Arrays.asList(
@@ -364,10 +244,9 @@ public class Robot {
             drive.followTrajectory(trajectory1);
             wait(500);
             ShootOne();
-            MIntake.setPower(0);
+            mIntake.setPower(0);
             shooterOff();
         } else if(state ==4){
-
             Trajectory trajectory = drive.trajectoryBuilder(Coordinates.shoot)
                     .back(20, new MinVelocityConstraint(
                     Arrays.asList(
@@ -390,7 +269,7 @@ public class Robot {
             drive.followTrajectory(trajectory1);
             wait(500);
             ShootGoal();
-            MIntake.setPower(0);
+            mIntake.setPower(0);
             shooterOff();
         }
     }
@@ -405,12 +284,11 @@ public class Robot {
                             )
                     ),new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
                     .addTemporalMarker(0, () -> {
-                        MArm.setPower(1);
+                        mArm.setPower(1);
                     })
                     .addTemporalMarker(1.5, () -> {
-                        MArm.setPower(0);
+                        mArm.setPower(0);
                     })
-                    //.splineToLinearHeading(new Vector2d(Coordinates.a.getX(), Coordinates.a.getY()), Coordinates.a.getHeading())
                     .build();
             drive.followTrajectory(trajectory);
 
@@ -418,12 +296,11 @@ public class Robot {
             Trajectory trajectory = drive.trajectoryBuilder(Coordinates.shoot)
                     .splineTo(new Vector2d(Coordinates.b.getX(), Coordinates.b.getY()), Coordinates.b.getHeading())
                     .addTemporalMarker(0, () -> {
-                        MArm.setPower(1);
+                        mArm.setPower(1);
                     })
                     .addTemporalMarker(1.5, () -> {
-                        MArm.setPower(0);
+                        mArm.setPower(0);
                     })
-                    //.splineToConstantHeading(new Vector2d(Coordinates.b.getX(), Coordinates.b.getY()), Coordinates.b.getHeading())
                     .build();
             drive.followTrajectory(trajectory);
 
@@ -431,12 +308,11 @@ public class Robot {
             Trajectory trajectory = drive.trajectoryBuilder(Coordinates.shoot)
                     .splineTo(new Vector2d(Coordinates.c.getX(), Coordinates.c.getY()), Coordinates.c.getHeading())
                     .addTemporalMarker(0, () -> {
-                        MArm.setPower(1);
+                        mArm.setPower(1);
                     })
                     .addTemporalMarker(1.5, () -> {
-                        MArm.setPower(0);
+                        mArm.setPower(0);
                     })
-                    //.splineToLinearHeading(new Vector2d(Coordinates.c.getX(), Coordinates.c.getY()), Coordinates.c.getHeading())
                     .build();
             drive.followTrajectory(trajectory);
 
@@ -448,42 +324,33 @@ public class Robot {
     }
     public static void getWobble(int state){ //0 is A, 1 is B, 4 is C
         if (state == 0) { //A
-            //drive.setPoseEstimate(Coordinates.a);
             Trajectory trajectory1 = drive.trajectoryBuilder(Coordinates.a)
                     .back(20)
                     .build();
             drive.followTrajectory(trajectory1);
             drive.turn(Math.toRadians(270));
-            //Pose2d Pose = new Pose2d(Coordinates.a.getX(), Coordinates.a.getY()+20, Math.toRadians(180));
-            //drive.setPoseEstimate(Pose);
             Trajectory trajectory = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.wobble.getX(), Coordinates.wobble.getY()), Coordinates.wobble.getHeading())
                     .build();
             drive.followTrajectory(trajectory);
 
         }else if(state ==1){//B
-            //drive.setPoseEstimate(Coordinates.b);
             Trajectory trajectory1 = drive.trajectoryBuilder(Coordinates.b)
                     .back(20)
                     .build();
             drive.followTrajectory(trajectory1);
             drive.turn(Math.toRadians(180));
-            //Pose2d Pose = new Pose2d(Coordinates.b.getX() - 20, Coordinates.b.getY(), Math.toRadians(180));
-            //drive.setPoseEstimate(Pose);
             Trajectory trajectory = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.wobble.getX(), Coordinates.wobble.getY()), Coordinates.wobble.getHeading())
                     .build();
             drive.followTrajectory(trajectory);
 
         }else if(state ==4){//C
-            //drive.setPoseEstimate(Coordinates.c);
             Trajectory trajectory1 = drive.trajectoryBuilder(Coordinates.c)
                     .back(20)
                     .build();
             drive.followTrajectory(trajectory1);
             drive.turn(Math.toRadians(180));
-            //Pose2d Pose = drive.getPoseEstimate();
-            //drive.setPoseEstimate(Pose);
             Trajectory trajectory = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.wobble.getX(), Coordinates.wobble.getY()), Coordinates.wobble.getHeading())
                     .build();
@@ -495,57 +362,46 @@ public class Robot {
     }
     public static void bringWobble(int state){//0 is A, 1 is B, 4 is C
         drive.turn(Math.toRadians(180));
-        //Pose2d Pose = new Pose2d(Coordinates.wobble.getX(), Coordinates.wobble.getY(), Math.toRadians(0));
-        //drive.setPoseEstimate(Pose);
         if (state == 0) { //A
             Trajectory trajectory = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.a.getX()-2, Coordinates.a.getY()-3), Coordinates.a.getHeading())
                     .build();
             drive.followTrajectory(trajectory);
-
         }else if(state ==1){//B
             Trajectory trajectory = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.b.getX(), Coordinates.b.getY() - 3), 358)
                     .build();
             drive.followTrajectory(trajectory);
-
         }else if(state ==4){//C
             Trajectory trajectory = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.c.getX() -2, Coordinates.c.getY() - 3), Coordinates.c.getHeading())
                     .build();
             drive.followTrajectory(trajectory);
-
         }
         openArm();
         wait(500);
     }
     public static void goToLine(int state){
         if (state == 0) { //A
-            //drive.setPoseEstimate(Coordinates.a);
             Trajectory trajectory = drive.trajectoryBuilder(Coordinates.a)
                     .back(5)
                     .build();
             drive.followTrajectory(trajectory);
-
         }else if(state ==1){//B
-            //drive.setPoseEstimate(Coordinates.b);
             Trajectory trajectory = drive.trajectoryBuilder(Coordinates.b)
                     .back(5)
                     .build();
             drive.followTrajectory(trajectory);
-
         }else if(state ==4){//C
             Trajectory trajectory1 = drive.trajectoryBuilder(Coordinates.c)
                     .back(20)
                     .build();
             drive.followTrajectory(trajectory1);
             drive.turn(Math.toRadians(45));
-            //drive.setPoseEstimate(drive.getPoseEstimate());
             Trajectory trajectory = drive.trajectoryBuilder(drive.getPoseEstimate())
                     .back(30)
                     .build();
             drive.followTrajectory(trajectory);
-
         }
 
     }
@@ -557,6 +413,37 @@ public class Robot {
             tfod.activate();
             tfod.setZoom(1.5, 1.3);
         }
+    }
+
+    //TELEOP ALIGNMENT METHODS
+    public static void adjustHeading(int headingDegrees){
+        double headingRadians = Math.toRadians(headingDegrees);
+        Pose2d pose = drive.getPoseEstimate();
+        double currentHeading = pose.getHeading();
+        double difference = headingRadians-currentHeading;
+        drive.turn(difference);
+    }
+    public static void alignStraight(){
+        adjustHeading(0);
+    }
+    public static void alignLeft(){
+        adjustHeading(90);
+    }
+    public static void alignRight(){
+        adjustHeading(270);
+    }
+    public static void alignToShoot(){
+        Trajectory trajectory = drive.trajectoryBuilder(drive.getPoseEstimate())
+                .splineTo(new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY()), Math.toRadians(0))
+                .build();
+        Robot.shooterOn(Constants.powerConstant);
+        drive.followTrajectory(trajectory);
+        alignStraight();
+        ShootGoal();
+        shooterOff();
+    }
+    public static void updatePosition(){
+        drive.setPoseEstimate(Coordinates.zero);
     }
 }
 

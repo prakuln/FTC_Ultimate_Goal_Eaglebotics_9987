@@ -5,6 +5,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
+
 @TeleOp(name = "TeleOp_Beta", group = "OpModes")
 public class TeleOp_Beta extends LinearOpMode {
     @Override
@@ -14,17 +16,17 @@ public class TeleOp_Beta extends LinearOpMode {
         Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
         Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
         Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        Robot.MLeftShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        Robot.MRightShooter = hardwareMap.dcMotor.get("MRightShooter");
-        Robot.MIntake = hardwareMap.dcMotor.get("MIntake");
-        Robot.MArm = hardwareMap.dcMotor.get("MArm");
-        Robot.LClaw = hardwareMap.servo.get("LClaw");
-        Robot.RClaw = hardwareMap.servo.get("RClaw");
-        Robot.Cam = hardwareMap.servo.get("Cam");
-        Robot.Hopper = hardwareMap.servo.get("Hopper");
-        Robot.ExpansionHub1_VoltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
-        //Robot.drive = new MyMecanumDrive(hardwareMap);
-        //Robot.drive.setPoseEstimate(Coordinates.end);
+        Robot.leftShooter = hardwareMap.dcMotor.get("MLeftShooter");
+        Robot.rightShooter = hardwareMap.dcMotor.get("MRightShooter");
+        Robot.mIntake = hardwareMap.dcMotor.get("MIntake");
+        Robot.mArm = hardwareMap.dcMotor.get("MArm");
+        Robot.leftClaw = hardwareMap.servo.get("LClaw");
+        Robot.rightClaw = hardwareMap.servo.get("RClaw");
+        Robot.cam = hardwareMap.servo.get("Cam");
+        Robot.hopper = hardwareMap.servo.get("Hopper");
+        Robot.voltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
+        Robot.drive = new MyMecanumDrive(hardwareMap);
+        Robot.drive.setPoseEstimate(Coordinates.end);
         Robot.cameraIn();
         Robot.hopperBack();
         Robot.openArm();
@@ -35,9 +37,9 @@ public class TeleOp_Beta extends LinearOpMode {
             while (opModeIsActive()) {
                 // Put loop blocks here.
                 telemetry.update();
-                //Robot.drive.update();
+                Robot.drive.update();
                 Robot.hopperBack();
-                Robot.MechanumDriveControl(gamepad1.right_stick_x*Constants.turnPower, gamepad1.right_stick_y,  gamepad1.left_stick_x);
+                Robot.MechanumDriveControl(gamepad1.right_stick_x*Constants.turnPower, gamepad1.right_stick_y,  gamepad1.left_trigger, gamepad1.right_trigger);
                 if (gamepad1.y) {
                     Robot.shooterOn(Constants.powerConstant);
                 }
@@ -50,23 +52,33 @@ public class TeleOp_Beta extends LinearOpMode {
                 else{
                     Robot.SpeedControl(1);
                 }
-                if (gamepad1.x){
+                /*if (gamepad1.x){
+                    Robot.alignStraight();
                     Robot.ShootGoal();
+                }*/
+                if(gamepad1.x){
+                    telemetry.addData("Aligning to shoot", "");
+                    Robot.alignToShoot();
                 }
-                if (gamepad1.b){
+                if(gamepad1.b){
+                    telemetry.addData("Resetting odometry position", "");
+                    Robot.updatePosition();
+                }
+                /*if (gamepad1.b){
+                    Robot.alignStraight();
                     Robot.ShootOne();
-                }
+                }*/
                 if (gamepad1.right_bumper){ //code for shooting the power shots
                     Robot.PowerShot();
                 }
                 if (gamepad1.dpad_down){ // code for the arm
-                    Robot.MArm.setPower(-1);
+                    Robot.mArm.setPower(-1);
                 }
                 else if (gamepad1.dpad_up){
-                    Robot.MArm.setPower(1);
+                    Robot.mArm.setPower(1);
                 }
                 else{
-                    Robot. MArm.setPower(0);
+                    Robot.mArm.setPower(0);
                 }
                 if (gamepad1.dpad_right){
                     Robot.closeArm();
@@ -74,7 +86,7 @@ public class TeleOp_Beta extends LinearOpMode {
                 if (gamepad1.dpad_left){
                     Robot.openArm();
                 }
-                Robot.MIntake.setPower(-gamepad1.left_stick_y);
+                Robot.mIntake.setPower(-gamepad1.left_stick_y);
 
             }
 

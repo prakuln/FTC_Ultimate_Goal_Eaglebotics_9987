@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @Disabled
-@TeleOp(name = "TestHardare", group = "OpModes")
+@TeleOp(name = "TestHardware", group = "OpModes")
 public class TestHardware extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -14,14 +14,14 @@ public class TestHardware extends LinearOpMode {
         Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
         Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
         Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        Robot.MLeftShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        Robot.MRightShooter = hardwareMap.dcMotor.get("MRightShooter");
-        Robot.MIntake = hardwareMap.dcMotor.get("MIntake");
-        Robot.MArm = hardwareMap.dcMotor.get("MArm");
-        Robot.LClaw = hardwareMap.servo.get("LClaw");
-        Robot.RClaw = hardwareMap.servo.get("RClaw");
-        Robot.Cam = hardwareMap.servo.get("Cam");
-        Robot.Hopper = hardwareMap.servo.get("Hopper");
+        Robot.leftShooter = hardwareMap.dcMotor.get("MLeftShooter");
+        Robot.rightShooter = hardwareMap.dcMotor.get("MRightShooter");
+        Robot.mIntake = hardwareMap.dcMotor.get("MIntake");
+        Robot.mArm = hardwareMap.dcMotor.get("MArm");
+        Robot.leftClaw = hardwareMap.servo.get("LClaw");
+        Robot.rightClaw = hardwareMap.servo.get("RClaw");
+        Robot.cam = hardwareMap.servo.get("Cam");
+        Robot.hopper = hardwareMap.servo.get("Hopper");
         waitForStart();
         if (opModeIsActive()) {
 

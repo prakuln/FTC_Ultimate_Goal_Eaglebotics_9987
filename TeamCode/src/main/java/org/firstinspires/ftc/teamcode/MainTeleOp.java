@@ -4,16 +4,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 @Disabled
 @TeleOp(name = "MainTeleOp", group = "OpModes")
 public class MainTeleOp extends LinearOpMode {
-    private VoltageSensor ExpansionHub1_VoltageSensor;
-    float RstickX;
-    float RstickY;
-    double LStick;
-    double LT;
-    double RT;
     @Override
     public void runOpMode() {
 
@@ -21,17 +14,17 @@ public class MainTeleOp extends LinearOpMode {
         Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
         Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
         Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        Robot.MLeftShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        Robot.MRightShooter = hardwareMap.dcMotor.get("MRightShooter");
-        Robot.MIntake = hardwareMap.dcMotor.get("MIntake");
-        Robot.MArm = hardwareMap.dcMotor.get("MArm");
-        ExpansionHub1_VoltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
-        Robot.LClaw = hardwareMap.servo.get("LClaw");
-        Robot.RClaw = hardwareMap.servo.get("RClaw");
-        Robot.Cam = hardwareMap.servo.get("Cam");
-        Robot.Hopper = hardwareMap.servo.get("Hopper");
-        Robot.Cam.setPosition(0.2);
-        Robot.Hopper.setPosition(0.94);
+        Robot.leftShooter = hardwareMap.dcMotor.get("MLeftShooter");
+        Robot.rightShooter = hardwareMap.dcMotor.get("MRightShooter");
+        Robot.mIntake = hardwareMap.dcMotor.get("MIntake");
+        Robot.mArm = hardwareMap.dcMotor.get("MArm");
+        Robot.voltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
+        Robot.leftClaw = hardwareMap.servo.get("LClaw");
+        Robot.rightClaw = hardwareMap.servo.get("RClaw");
+        Robot.cam = hardwareMap.servo.get("Cam");
+        Robot.hopper = hardwareMap.servo.get("Hopper");
+        Robot.cameraIn();
+        Robot.hopperBack();
         Robot.openArm();
         waitForStart();
         if (opModeIsActive()) {
@@ -40,8 +33,8 @@ public class MainTeleOp extends LinearOpMode {
             while (opModeIsActive()) {
                 // Put loop blocks here.
                 telemetry.update();
-                Robot.Hopper.setPosition(0.94);
-                Robot.MechanumDriveControl(gamepad1.right_stick_x*Constants.turnPower, gamepad1.right_stick_y,  gamepad1.left_stick_x);
+                Robot.hopper.setPosition(0.94);
+                Robot.MechanumDriveControl(gamepad1.right_stick_x*Constants.turnPower, gamepad1.right_stick_y,  gamepad1.left_trigger, gamepad1.right_trigger);
                 if (gamepad1.y) {
                     Robot.shooterOn(Constants.powerConstant);
                 }
@@ -70,13 +63,13 @@ public class MainTeleOp extends LinearOpMode {
 
 
                 if (gamepad1.dpad_down){ // code for the arm
-                    Robot.MArm.setPower(-1);
+                    Robot.mArm.setPower(-1);
                 }
                 else if (gamepad1.dpad_up){
-                    Robot.MArm.setPower(1);
+                    Robot.mArm.setPower(1);
                 }
                 else{
-                    Robot. MArm.setPower(0);
+                    Robot.mArm.setPower(0);
                 }
                 if (gamepad1.dpad_right){
                     Robot.closeArm();
@@ -85,7 +78,7 @@ public class MainTeleOp extends LinearOpMode {
                     Robot.openArm();
                 }
 
-                Robot.MIntake.setPower(-gamepad1.left_stick_y);
+                Robot.mIntake.setPower(-gamepad1.left_stick_y);
 
             }
 
