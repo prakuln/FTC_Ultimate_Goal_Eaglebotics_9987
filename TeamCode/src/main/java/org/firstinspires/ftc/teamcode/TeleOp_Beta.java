@@ -22,6 +22,7 @@ public class TeleOp_Beta extends LinearOpMode {
         Robot.RClaw = hardwareMap.servo.get("RClaw");
         Robot.Cam = hardwareMap.servo.get("Cam");
         Robot.Hopper = hardwareMap.servo.get("Hopper");
+        Robot.ExpansionHub1_VoltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
         //Robot.drive = new MyMecanumDrive(hardwareMap);
         //Robot.drive.setPoseEstimate(Coordinates.end);
         Robot.cameraIn();

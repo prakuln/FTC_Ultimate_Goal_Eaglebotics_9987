@@ -2,9 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 //THIS IS A BETA VERSION FOR THE TELEOP CODE! ALL TESTINGS OCCUR HERE. NOT FOR USE IN COMPETITIONS!
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
+@Disabled
 @TeleOp(name = "TestHardare", group = "OpModes")
 public class TestHardware extends LinearOpMode {
     @Override

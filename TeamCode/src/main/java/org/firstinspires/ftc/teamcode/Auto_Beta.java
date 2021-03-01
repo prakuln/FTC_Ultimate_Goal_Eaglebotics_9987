@@ -59,6 +59,7 @@ public class Auto_Beta extends LinearOpMode {
                             telemetry.addData("Target Zone", "A");
                             telemetry.update();
                             Robot.a();
+                            Robot.wait(30000);
                         } else {
                             // list is not empty.
                             // step through the list of recognitions and display boundary info.
@@ -75,10 +76,12 @@ public class Auto_Beta extends LinearOpMode {
                                     telemetry.addData("Target Zone", "B");
                                     telemetry.update();
                                     Robot.b();
+                                    Robot.wait(30000);
                                 } else if (recognition.getLabel().equals("Quad")) {
                                     telemetry.addData("Target Zone", "C");
                                     telemetry.update();
                                     Robot.c();
+                                    Robot.wait(30000);
                                 } else {
                                     telemetry.addData("Target Zone", "UNKNOWN");
                                 }

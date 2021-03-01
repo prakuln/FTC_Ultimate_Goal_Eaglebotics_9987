@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
  * This is a simple routine to test translational drive capabilities.
  */
 @Config
+//@Disabled
 @Autonomous(group = "OpModes")
 public class Roadrunner_Test extends LinearOpMode {
     private VoltageSensor ExpansionHub1_VoltageSensor;
@@ -24,7 +25,7 @@ public class Roadrunner_Test extends LinearOpMode {
         Robot.MRightShooter = hardwareMap.dcMotor.get("MRightShooter");
         Robot.MIntake = hardwareMap.dcMotor.get("MIntake");
         Robot.MArm = hardwareMap.dcMotor.get("MArm");
-        ExpansionHub1_VoltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
+        Robot.ExpansionHub1_VoltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
         Robot.LClaw = hardwareMap.servo.get("LClaw");
         Robot.RClaw = hardwareMap.servo.get("RClaw");
         Robot.Cam = hardwareMap.servo.get("Cam");
@@ -35,7 +36,7 @@ public class Roadrunner_Test extends LinearOpMode {
         Robot.drive = new MyMecanumDrive(hardwareMap);
         waitForStart();
         if (isStopRequested()) return;
-        //Robot.goToShoot();
+        Robot.goToShoot();
         //Robot.shootStack(1, ExpansionHub1_VoltageSensor.getVoltage());
         //Robot.wait(1000);
         //Robot.ShootOne(ExpansionHub1_VoltageSensor.getVoltage());
