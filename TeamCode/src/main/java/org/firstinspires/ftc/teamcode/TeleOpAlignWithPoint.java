@@ -7,13 +7,12 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.control.PIDFController;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
 import org.firstinspires.ftc.teamcode.mech_drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner_util.DashboardUtil;
 
 /**
@@ -28,7 +27,6 @@ import org.firstinspires.ftc.teamcode.roadrunner_util.DashboardUtil;
  * want that to interfere with our graph so we just directly update localizer instead
  */
 @Config
-@Disabled
 @TeleOp(group = "advanced")
 public class TeleOpAlignWithPoint extends LinearOpMode {
 
@@ -48,7 +46,7 @@ public class TeleOpAlignWithPoint extends LinearOpMode {
 
     // Declare a target vector you'd like your bot to align with
     // Can be any x/y coordinate of your choosing
-    private final Vector2d targetPosition = new Vector2d(0, 0);
+    private final Vector2d targetPosition = new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY());
 
     @Override
     public void runOpMode() {
