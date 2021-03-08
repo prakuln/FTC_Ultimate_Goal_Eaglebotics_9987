@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 //THIS IS A BETA VERSION FOR THE TELEOP CODE! ALL TESTINGS OCCUR HERE. NOT FOR USE IN COMPETITIONS!
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
+import org.firstinspires.ftc.teamcode.mech_drive.StandardTrackingWheelLocalizer;
 
 @TeleOp(name = "TeleOp_Beta", group = "OpModes")
 public class TeleOp_Beta extends LinearOpMode {
@@ -26,7 +28,11 @@ public class TeleOp_Beta extends LinearOpMode {
         Robot.hopper = hardwareMap.servo.get("Hopper");
         Robot.voltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
         Robot.drive = new MyMecanumDrive(hardwareMap);
+        Robot.myLocalizer = new StandardTrackingWheelLocalizer(hardwareMap);
+
+        // Set your initial pose to x: 10, y: 10, facing 90 degrees
         Robot.drive.setPoseEstimate(Coordinates.end);
+        Robot.myLocalizer.setPoseEstimate(Coordinates.end);
         Robot.cameraIn();
         Robot.hopperBack();
         Robot.openArm();
@@ -38,8 +44,14 @@ public class TeleOp_Beta extends LinearOpMode {
                 // Put loop blocks here.
                 telemetry.update();
                 Robot.drive.update();
+                Robot.myLocalizer.update();
                 Robot.hopperBack();
-                Robot.MechanumDriveControl(gamepad1.right_stick_x*Constants.turnPower, gamepad1.right_stick_y,  gamepad1.left_trigger, gamepad1.right_trigger);
+                Pose2d myPose = Robot.myLocalizer.getPoseEstimate();
+
+                telemetry.addData("x", myPose.getX());
+                telemetry.addData("y", myPose.getY());
+                telemetry.addData("heading", myPose.getHeading());
+                Robot.fieldCentricDrive(gamepad1.right_stick_x*Constants.turnPower, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger);
                 if (gamepad1.y) {
                     Robot.shooterOn(Constants.powerConstant);
                 }
@@ -58,11 +70,13 @@ public class TeleOp_Beta extends LinearOpMode {
                 }*/
                 if(gamepad1.x){
                     telemetry.addData("Aligning to shoot", "");
-                    Robot.alignToShoot();
+                    Robot.myLocalizer.setPoseEstimate(Coordinates.shoot);
+                    Robot.ShootGoal();
                 }
                 if(gamepad1.b){
                     telemetry.addData("Resetting odometry position", "");
-                    Robot.updatePosition();
+                    Robot.alignToShoot();
+
                 }
                 /*if (gamepad1.b){
                     Robot.alignStraight();

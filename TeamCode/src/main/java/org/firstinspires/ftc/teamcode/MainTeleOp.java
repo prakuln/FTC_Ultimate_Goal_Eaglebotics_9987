@@ -1,10 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-@Disabled
+
+import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
+
 @TeleOp(name = "MainTeleOp", group = "OpModes")
 public class MainTeleOp extends LinearOpMode {
     @Override
@@ -23,6 +24,7 @@ public class MainTeleOp extends LinearOpMode {
         Robot.rightClaw = hardwareMap.servo.get("RClaw");
         Robot.cam = hardwareMap.servo.get("Cam");
         Robot.hopper = hardwareMap.servo.get("Hopper");
+        Robot.drive = new MyMecanumDrive(hardwareMap);
         Robot.cameraIn();
         Robot.hopperBack();
         Robot.openArm();

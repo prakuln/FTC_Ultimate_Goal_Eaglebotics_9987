@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
+import org.firstinspires.ftc.teamcode.mech_drive.StandardTrackingWheelLocalizer;
 
 import java.util.List;
 //THIS IS A BETA VERSION FOR THE AUTONOMOUS CODE! ALL TESTINGS OCCUR HERE. NOT FOR USE IN COMPETITIONS!
@@ -37,6 +38,8 @@ public class Auto_Beta extends LinearOpMode {
         Robot.closeArm();
         Robot.cameraOut();
         Robot.drive = new MyMecanumDrive(hardwareMap);
+        Robot.myLocalizer = new StandardTrackingWheelLocalizer(hardwareMap);
+        Robot.myLocalizer.setPoseEstimate(Coordinates.start);
         Robot.setCameraZoom();
         telemetry.addLine();
         telemetry.addData(">", "Press Play to start op mode");

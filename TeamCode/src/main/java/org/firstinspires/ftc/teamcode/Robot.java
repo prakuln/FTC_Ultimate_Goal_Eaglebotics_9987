@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.mech_drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.mech_drive.MyMecanumDrive;
+import org.firstinspires.ftc.teamcode.mech_drive.StandardTrackingWheelLocalizer;
 
 import java.util.Arrays;
 
@@ -41,6 +42,7 @@ public class Robot {
     public static Servo cam;
     public static VoltageSensor voltageSensor;
     public static MyMecanumDrive drive;
+    public static StandardTrackingWheelLocalizer myLocalizer;
     public static void wait(int ms)
     {
         try
@@ -104,7 +106,6 @@ public class Robot {
         hopperBack();
         shooterOn(Constants.shotConstant);
         wait(1500);
-        drive.turn(2);
         leftFront.setPower(0);
         leftRear.setPower(0);
         rightFront.setPower(0);
@@ -114,23 +115,23 @@ public class Robot {
         hopperForward();
         wait(200);
         hopperBack();
-        drive.turn(-2);
+        drive.turn(Math.toRadians(Constants.powerShotTurn));
         leftFront.setPower(0);
         leftRear.setPower(0);
         rightFront.setPower(0);
         rightRear.setPower(0);
         shooterOn(Constants.shotConstant);
-        wait(500);
+        wait(1000);
         hopperForward();
         wait(200);
         hopperBack();
-        drive.turn(-2);
+        drive.turn(Math.toRadians(-Constants.powerShotTurn*2));
         leftFront.setPower(0);
         leftRear.setPower(0);
         rightFront.setPower(0);
         rightRear.setPower(0);
         shooterOn(Constants.shotConstant);
-        wait(500);
+        wait(1000);
         hopperForward();
         wait(200);
         hopperBack();
@@ -138,7 +139,7 @@ public class Robot {
         rightShooter.setPower(0);
     }
     public static void openArm(){
-        Robot.leftClaw.setPosition(0.6);
+        Robot.leftClaw.setPosition(1);
         Robot.rightClaw.setPosition(1);
     }
     public static void closeArm(){
@@ -146,7 +147,7 @@ public class Robot {
         Robot.rightClaw.setPosition(0);
     }
     public static void hopperBack(){
-        hopper.setPosition(0.92);
+        hopper.setPosition(0.93);
     }
     public static void hopperForward(){
         hopper.setPosition(0.81);
@@ -176,6 +177,7 @@ public class Robot {
     }
     //METHODS FOR AUTONOMOUS
     public static void a(){
+        cameraIn();
         goToShoot();
         goToZone(0);
         getWobble(0);
@@ -184,6 +186,7 @@ public class Robot {
         setEndPose();
     }
     public static void b(){
+        cameraIn();
         goToShoot();
         shootStack(1);
         goToZone(1);
@@ -193,6 +196,7 @@ public class Robot {
         setEndPose();
     }
     public static void c(){
+        cameraIn();
         goToShoot();
         shootStack(4);
         goToZone(4);
@@ -364,7 +368,7 @@ public class Robot {
         drive.turn(Math.toRadians(180));
         if (state == 0) { //A
             Trajectory trajectory = drive.trajectoryBuilder(drive.getPoseEstimate())
-                    .splineTo(new Vector2d(Coordinates.a.getX()-2, Coordinates.a.getY()-3), Coordinates.a.getHeading())
+                    .splineTo(new Vector2d(Coordinates.a.getX()-2, Coordinates.a.getY()+7), Coordinates.a.getHeading())
                     .build();
             drive.followTrajectory(trajectory);
         }else if(state ==1){//B
@@ -411,14 +415,14 @@ public class Robot {
     public static void setCameraZoom(){
         if (tfod != null) {
             tfod.activate();
-            tfod.setZoom(1.5, 1.3);
+            tfod.setZoom(2, 1.3);
         }
     }
 
     //TELEOP ALIGNMENT METHODS
     public static void adjustHeading(int headingDegrees){
         double headingRadians = Math.toRadians(headingDegrees);
-        Pose2d pose = drive.getPoseEstimate();
+        Pose2d pose = myLocalizer.getPoseEstimate();
         double currentHeading = pose.getHeading();
         double difference = headingRadians-currentHeading;
         drive.turn(difference);
@@ -432,18 +436,28 @@ public class Robot {
     public static void alignRight(){
         adjustHeading(270);
     }
+    public static void fieldCentricDrive(double RX, double RY, double LT, double RT){
+        drive.setWeightedDrivePower(
+                new Pose2d(
+                        -RY*Constants.speed,
+                        (LT-RT)*Constants.speed,
+                        (-RX)*Constants.speed
+                )
+        );
+    }
     public static void alignToShoot(){
-        Trajectory trajectory = drive.trajectoryBuilder(drive.getPoseEstimate())
-                .splineTo(new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY()), Math.toRadians(0))
+        Trajectory trajectory = drive.trajectoryBuilder(myLocalizer.getPoseEstimate())
+                .splineTo(new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY() +3), Coordinates.shoot.getHeading())
                 .build();
         Robot.shooterOn(Constants.powerConstant);
         drive.followTrajectory(trajectory);
-        alignStraight();
-        ShootGoal();
-        shooterOff();
+
+        //alignStraight();
+
+        //shooterOff();
     }
     public static void updatePosition(){
-        drive.setPoseEstimate(Coordinates.zero);
+        myLocalizer.setPoseEstimate(Coordinates.zero);
     }
 }
 

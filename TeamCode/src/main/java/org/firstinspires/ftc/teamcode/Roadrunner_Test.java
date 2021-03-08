@@ -45,6 +45,7 @@ public class Roadrunner_Test extends LinearOpMode {
         //Robot.getWobble(0);
         //Robot.bringWobble(0);
         //Robot.goToLine(0);
+        Robot.setEndPose();
         while (!isStopRequested() && opModeIsActive()) ;
     }
 }
