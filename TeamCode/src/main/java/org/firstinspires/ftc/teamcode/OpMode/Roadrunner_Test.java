@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Robot.Robot;
 public class Roadrunner_Test extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot.init(hardwareMap);
+        Robot.initAuto(hardwareMap);
         Hopper.back();
         Arm.close();
         Camera.out();
