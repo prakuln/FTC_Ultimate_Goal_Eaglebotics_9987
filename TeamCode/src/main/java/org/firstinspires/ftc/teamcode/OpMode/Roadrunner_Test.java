@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.OpMode;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.teamcode.Mecanum_Drive.MyMecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.Arm;
@@ -20,9 +19,8 @@ import org.firstinspires.ftc.teamcode.Robot.Robot;
 //@Disabled
 @Autonomous(group = "OpModes")
 public class Roadrunner_Test extends LinearOpMode {
-    private VoltageSensor ExpansionHub1_VoltageSensor;
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         Robot.leftFront = hardwareMap.dcMotor.get("leftFront");
         Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
         Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
@@ -52,6 +50,8 @@ public class Roadrunner_Test extends LinearOpMode {
         //Robot.bringWobble(0);
         //Robot.goToLine(0);
         Drivetrain.setEndPose();
-        while (!isStopRequested() && opModeIsActive()) ;
+        while (!isStopRequested() && opModeIsActive()) {
+            Robot.wait(1);
+        }
     }
 }

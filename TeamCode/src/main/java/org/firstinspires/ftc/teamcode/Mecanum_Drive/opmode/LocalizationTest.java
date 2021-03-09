@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Mecanum_Drive.MyMecanumDrive;
 @TeleOp(group = "roadrunner_calibration")
 public class LocalizationTest extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         MyMecanumDrive drive = new MyMecanumDrive(hardwareMap);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);

@@ -43,7 +43,7 @@ public class TrackingWheelForwardOffsetTuner extends LinearOpMode {
     public static int DELAY = 1000; // ms
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         MyMecanumDrive drive = new MyMecanumDrive(hardwareMap);

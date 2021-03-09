@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Mecanum_Drive.MyMecanumDrive;
 @Autonomous(group = "roadrunner_calibration")
 public class SplineTest extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         MyMecanumDrive drive = new MyMecanumDrive(hardwareMap);
 
         waitForStart();

@@ -14,6 +14,7 @@ public class Drivetrain {
     public static void speedControl(double speedcontr){
         Constants.speed = speedcontr;
     }
+    /*
     public static void adjustHeading(int headingDegrees){
         double headingRadians = Math.toRadians(headingDegrees);
         Pose2d pose = Robot.myLocalizer.getPoseEstimate();
@@ -29,7 +30,7 @@ public class Drivetrain {
     }
     public static void alignRight(){
         adjustHeading(270);
-    }
+    }*/
     public static void fieldCentricDrive(double RX, double RY, double LT, double RT){
         Robot.drive.setWeightedDrivePower(
                 new Pose2d(
@@ -54,7 +55,8 @@ public class Drivetrain {
     public static void setEndPose(){
         Coordinates.end = Robot.drive.getPoseEstimate();
     }
+    /*
     public static void updatePosition(){
         Robot.myLocalizer.setPoseEstimate(Coordinates.zero);
-    }
+    } */
 }

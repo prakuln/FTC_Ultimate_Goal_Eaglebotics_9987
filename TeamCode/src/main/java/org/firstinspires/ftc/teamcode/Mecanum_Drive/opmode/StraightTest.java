@@ -18,7 +18,7 @@ public class StraightTest extends LinearOpMode {
     public static double DISTANCE = 60; // in
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         MyMecanumDrive drive = new MyMecanumDrive(hardwareMap);
 
         Trajectory trajectory = drive.trajectoryBuilder(new Pose2d())

@@ -48,16 +48,12 @@ import static org.firstinspires.ftc.teamcode.Mecanum_Drive.DriveConstants.kV;
 public class ManualFeedforwardTuner extends LinearOpMode {
     public static double DISTANCE = 72; // in
 
-    private FtcDashboard dashboard = FtcDashboard.getInstance();
-
-    private MyMecanumDrive drive;
+    private final FtcDashboard dashboard = FtcDashboard.getInstance();
 
     enum Mode {
         DRIVER_MODE,
         TUNING_MODE
     }
-
-    private Mode mode;
 
     private static MotionProfile generateProfile(boolean movingForward) {
         MotionState start = new MotionState(movingForward ? 0 : DISTANCE, 0, 0, 0);
@@ -74,9 +70,9 @@ public class ManualFeedforwardTuner extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
-        drive = new MyMecanumDrive(hardwareMap);
+        MyMecanumDrive drive = new MyMecanumDrive(hardwareMap);
 
-        mode = Mode.TUNING_MODE;
+        Mode mode = Mode.TUNING_MODE;
 
         NanoClock clock = NanoClock.system();
 

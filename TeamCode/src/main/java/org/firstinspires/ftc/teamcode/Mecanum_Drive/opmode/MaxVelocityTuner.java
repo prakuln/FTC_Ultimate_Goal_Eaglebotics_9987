@@ -27,18 +27,15 @@ import java.util.Objects;
 public class MaxVelocityTuner extends LinearOpMode {
     public static double RUNTIME = 2.0;
 
-    private ElapsedTime timer;
     private double maxVelocity = 0.0;
 
-    private VoltageSensor batteryVoltageSensor;
-
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         MyMecanumDrive drive = new MyMecanumDrive(hardwareMap);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
+        VoltageSensor batteryVoltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         telemetry.addLine("Your bot will go at full speed for " + RUNTIME + " seconds.");
         telemetry.addLine("Please ensure you have enough space cleared.");
@@ -52,7 +49,7 @@ public class MaxVelocityTuner extends LinearOpMode {
         telemetry.update();
 
         drive.setDrivePower(new Pose2d(1, 0, 0));
-        timer = new ElapsedTime();
+        ElapsedTime timer = new ElapsedTime();
 
         while (!isStopRequested() && timer.seconds() < RUNTIME) {
             drive.updatePoseEstimate();

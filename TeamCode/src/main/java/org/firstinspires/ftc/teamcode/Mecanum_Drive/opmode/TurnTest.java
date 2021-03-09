@@ -16,7 +16,7 @@ public class TurnTest extends LinearOpMode {
     public static double ANGLE = 90; // deg
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         MyMecanumDrive drive = new MyMecanumDrive(hardwareMap);
 
         waitForStart();

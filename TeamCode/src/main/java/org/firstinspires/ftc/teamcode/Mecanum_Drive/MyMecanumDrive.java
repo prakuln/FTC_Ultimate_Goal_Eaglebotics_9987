@@ -24,7 +24,6 @@ import com.acmerobotics.roadrunner.trajectory.constraints.ProfileAccelerationCon
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryAccelerationConstraint;
 import com.acmerobotics.roadrunner.trajectory.constraints.TrajectoryVelocityConstraint;
 import com.acmerobotics.roadrunner.util.NanoClock;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -75,26 +74,29 @@ public class MyMecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDri
         FOLLOW_TRAJECTORY
     }
 
-    private FtcDashboard dashboard;
-    private NanoClock clock;
+    private final FtcDashboard dashboard;
+    private final NanoClock clock;
 
     private Mode mode;
 
-    private PIDFController turnController;
+    private final PIDFController turnController;
     private MotionProfile turnProfile;
     private double turnStart;
 
-    private TrajectoryVelocityConstraint velConstraint;
-    private TrajectoryAccelerationConstraint accelConstraint;
-    private TrajectoryFollower follower;
+    private final TrajectoryVelocityConstraint velConstraint;
+    private final TrajectoryAccelerationConstraint accelConstraint;
+    private final TrajectoryFollower follower;
 
-    private LinkedList<Pose2d> poseHistory;
+    private final LinkedList<Pose2d> poseHistory;
 
-    private DcMotorEx leftFront, leftRear, rightRear, rightFront;
-    private List<DcMotorEx> motors;
-    private BNO055IMU imu;
+    private final DcMotorEx leftFront;
+    private final DcMotorEx leftRear;
+    private final DcMotorEx rightRear;
+    private final DcMotorEx rightFront;
+    private final List<DcMotorEx> motors;
+    //private BNO055IMU imu;
 
-    private VoltageSensor batteryVoltageSensor;
+    private final VoltageSensor batteryVoltageSensor;
 
     private Pose2d lastPoseOnTurn;
 

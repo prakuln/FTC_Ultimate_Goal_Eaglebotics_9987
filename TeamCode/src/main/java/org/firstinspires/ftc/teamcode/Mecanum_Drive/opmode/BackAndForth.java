@@ -32,7 +32,7 @@ public class BackAndForth extends LinearOpMode {
     public static double DISTANCE = 50;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         MyMecanumDrive drive = new MyMecanumDrive(hardwareMap);
 
         Trajectory trajectoryForward = drive.trajectoryBuilder(new Pose2d())

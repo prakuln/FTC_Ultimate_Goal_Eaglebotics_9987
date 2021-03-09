@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpMode;
 
+import android.annotation.SuppressLint;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -23,6 +25,7 @@ import java.util.List;
 @Autonomous(name = "Auto_Beta", group = "OpModes")
 
 public class Auto_Beta extends LinearOpMode {
+    @SuppressLint("DefaultLocale")
     @Override
    public void runOpMode(){
         initVuforia();

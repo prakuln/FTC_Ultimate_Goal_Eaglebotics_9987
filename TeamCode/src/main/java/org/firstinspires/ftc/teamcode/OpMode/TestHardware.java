@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Robot.Robot;
 @TeleOp(name = "TestHardware", group = "OpModes")
 public class TestHardware extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         Robot.leftFront = hardwareMap.dcMotor.get("leftFront");
         Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
         Robot.rightFront = hardwareMap.dcMotor.get("rightFront");

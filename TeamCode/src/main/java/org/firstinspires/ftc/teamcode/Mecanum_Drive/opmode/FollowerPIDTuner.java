@@ -28,7 +28,7 @@ public class FollowerPIDTuner extends LinearOpMode {
     public static double DISTANCE = 48; // in
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() {
         MyMecanumDrive drive = new MyMecanumDrive(hardwareMap);
 
         Pose2d startPose = new Pose2d(-DISTANCE / 2, -DISTANCE / 2, 0);

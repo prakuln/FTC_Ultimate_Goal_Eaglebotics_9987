@@ -17,12 +17,8 @@ public class Navigation {
         Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.start)
                 .splineTo(new Vector2d(Coordinates.auto_point.getX(), Coordinates.auto_point.getY()), Coordinates.auto_point.getHeading())
                 .splineTo(new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY()), Coordinates.shoot.getHeading())
-                .addTemporalMarker(1, () -> {
-                    Arm.moveDown(1);
-                })
-                .addTemporalMarker(1.5, () -> {
-                    Arm.stop();
-                })
+                .addTemporalMarker(1, () -> Arm.moveDown(1))
+                .addTemporalMarker(1.5, Arm::stop)
                 .build();
         Shooter.on(Constants.powerConstant);
         Robot.drive.followTrajectory(trajectory);
@@ -94,36 +90,24 @@ public class Navigation {
                                     new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
                             )
                     ),new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                    .addTemporalMarker(0, () -> {
-                        Arm.moveDown(1);
-                    })
-                    .addTemporalMarker(1.5, () -> {
-                        Arm.stop();
-                    })
+                    .addTemporalMarker(0, () -> Arm.moveDown(1))
+                    .addTemporalMarker(1.5, Arm::stop)
                     .build();
             Robot.drive.followTrajectory(trajectory);
 
         }else if(state ==1){//B
             Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.shoot)
                     .splineTo(new Vector2d(Coordinates.b.getX(), Coordinates.b.getY()), Coordinates.b.getHeading())
-                    .addTemporalMarker(0, () -> {
-                        Arm.moveDown(1);
-                    })
-                    .addTemporalMarker(1.5, () -> {
-                        Arm.stop();
-                    })
+                    .addTemporalMarker(0, () -> Arm.moveDown(1))
+                    .addTemporalMarker(1.5, Arm::stop)
                     .build();
             Robot.drive.followTrajectory(trajectory);
 
         }else if(state ==4){//C
             Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.shoot)
                     .splineTo(new Vector2d(Coordinates.c.getX(), Coordinates.c.getY()), Coordinates.c.getHeading())
-                    .addTemporalMarker(0, () -> {
-                        Arm.moveDown(1);
-                    })
-                    .addTemporalMarker(1.5, () -> {
-                        Arm.stop();
-                    })
+                    .addTemporalMarker(0, () -> Arm.moveDown(1))
+                    .addTemporalMarker(1.5, Arm::stop)
                     .build();
             Robot.drive.followTrajectory(trajectory);
 
