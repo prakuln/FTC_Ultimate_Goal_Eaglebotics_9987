@@ -54,7 +54,7 @@ public class Drivetrain {
     }
     public static void alignToShoot(){
         Trajectory trajectory = Robot.drive.trajectoryBuilder(Robot.myLocalizer.getPoseEstimate())
-                .splineTo(new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY() +3), Coordinates.shoot.getHeading())
+                .splineTo(new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY()), Coordinates.shoot.getHeading())
                 .build();
         Shooter.on(Constants.powerConstant);
         Robot.drive.followTrajectory(trajectory);

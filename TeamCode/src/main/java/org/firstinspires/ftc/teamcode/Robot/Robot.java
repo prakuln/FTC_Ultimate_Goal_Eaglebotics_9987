@@ -32,7 +32,6 @@ public class Robot {
         init(hardwareMap);
         drive.setPoseEstimate(Coordinates.end);
         myLocalizer.setPoseEstimate(Coordinates.end);
-        Camera.in();
         Hopper.back();
         Arm.open();
     }

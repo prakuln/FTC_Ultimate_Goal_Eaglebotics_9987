@@ -59,6 +59,7 @@ public class TeleOp_Beta extends LinearOpMode {
                 if(gamepad1.x){
                     telemetry.addData("Aligning to shoot", "");
                     Robot.myLocalizer.setPoseEstimate(Coordinates.shoot);
+                    Robot.drive.setPoseEstimate(Coordinates.shoot);
                     Shooter.shootThree();
                 }
                 if(gamepad1.b){
