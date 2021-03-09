@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Mecanum_Drive.MyMecanumDrive;
 import org.firstinspires.ftc.teamcode.Mecanum_Drive.StandardTrackingWheelLocalizer;
+import org.firstinspires.ftc.teamcode.Trajectories.Coordinates;
+
 public class Robot {
     public static MyMecanumDrive drive;
     public static StandardTrackingWheelLocalizer myLocalizer;

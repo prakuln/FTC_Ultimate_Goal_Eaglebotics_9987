@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Robot.Arm;
 import org.firstinspires.ftc.teamcode.Robot.Camera;
 import org.firstinspires.ftc.teamcode.Robot.Drivetrain;
 import org.firstinspires.ftc.teamcode.Robot.Hopper;
-import org.firstinspires.ftc.teamcode.Robot.Navigation;
+import org.firstinspires.ftc.teamcode.Trajectories.Navigation;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
 
 /*

@@ -6,6 +6,8 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Trajectories.Coordinates;
+
 public class Drivetrain {
     public static DcMotor leftFront;
     public static DcMotor leftRear;

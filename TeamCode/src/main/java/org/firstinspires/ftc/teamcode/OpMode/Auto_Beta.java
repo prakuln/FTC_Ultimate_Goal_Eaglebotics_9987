@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.teamcode.Robot.Autocode;
+import org.firstinspires.ftc.teamcode.Trajectories.Autocode;
 import org.firstinspires.ftc.teamcode.Robot.Camera;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
 

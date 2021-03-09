@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Robot.Arm;
 import org.firstinspires.ftc.teamcode.Robot.Constants;
-import org.firstinspires.ftc.teamcode.Robot.Coordinates;
+import org.firstinspires.ftc.teamcode.Trajectories.Coordinates;
 import org.firstinspires.ftc.teamcode.Robot.Drivetrain;
 import org.firstinspires.ftc.teamcode.Robot.Hopper;
 import org.firstinspires.ftc.teamcode.Robot.Intake;

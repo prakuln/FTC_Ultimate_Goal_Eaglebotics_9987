@@ -1,4 +1,7 @@
-package org.firstinspires.ftc.teamcode.Robot;
+package org.firstinspires.ftc.teamcode.Trajectories;
+
+import org.firstinspires.ftc.teamcode.Robot.Camera;
+import org.firstinspires.ftc.teamcode.Robot.Drivetrain;
 
 public class Autocode {
     public static void a(){
