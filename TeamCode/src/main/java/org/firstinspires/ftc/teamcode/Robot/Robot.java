@@ -13,6 +13,7 @@ public class Robot {
         Shooter.init(hardwareMap);
         Intake.init(hardwareMap);
         Arm.init(hardwareMap);
+        Hopper.init(hardwareMap);
         VoltageSensor.init(hardwareMap);
         drive = new MyMecanumDrive(hardwareMap);
         myLocalizer = new StandardTrackingWheelLocalizer(hardwareMap);

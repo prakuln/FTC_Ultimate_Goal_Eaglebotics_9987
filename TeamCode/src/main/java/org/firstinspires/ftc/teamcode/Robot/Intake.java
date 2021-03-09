@@ -17,7 +17,7 @@ public class Intake {
     public static void succIn(double value){
         succ(-value);
     }
-    public static void succOut(double value){
+    /*public static void succOut(double value){
         succ(value);
-    }
+    }*/
 }
