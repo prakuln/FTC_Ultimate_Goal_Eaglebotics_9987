@@ -4,9 +4,7 @@ package org.firstinspires.ftc.teamcode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Mecanum_Drive.MyMecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.Arm;
-import org.firstinspires.ftc.teamcode.Robot.Camera;
 import org.firstinspires.ftc.teamcode.Robot.Constants;
 import org.firstinspires.ftc.teamcode.Robot.Drivetrain;
 import org.firstinspires.ftc.teamcode.Robot.Hopper;
@@ -18,24 +16,7 @@ import org.firstinspires.ftc.teamcode.Robot.Shooter;
 public class MainTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
-
-        Robot.leftFront = hardwareMap.dcMotor.get("leftFront");
-        Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
-        Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
-        Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        Robot.leftShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        Robot.rightShooter = hardwareMap.dcMotor.get("MRightShooter");
-        Robot.mIntake = hardwareMap.dcMotor.get("MIntake");
-        Robot.mArm = hardwareMap.dcMotor.get("MArm");
-        Robot.voltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
-        Robot.leftClaw = hardwareMap.servo.get("LClaw");
-        Robot.rightClaw = hardwareMap.servo.get("RClaw");
-        Robot.cam = hardwareMap.servo.get("Cam");
-        Robot.hopper = hardwareMap.servo.get("Hopper");
-        Robot.drive = new MyMecanumDrive(hardwareMap);
-        Camera.in();
-        Hopper.back();
-        Arm.open();
+        Robot.initTeleOp(hardwareMap);
         waitForStart();
         if (opModeIsActive()) {
             // Put run blocks here.
