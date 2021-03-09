@@ -3,13 +3,25 @@ package org.firstinspires.ftc.teamcode.Robot;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Drivetrain {
+    public static DcMotor leftFront;
+    public static DcMotor leftRear;
+    public static DcMotor rightFront;
+    public static DcMotor rightRear;
+    public static void init(HardwareMap hardwareMap){
+        leftFront = hardwareMap.dcMotor.get("leftFront");
+        leftRear = hardwareMap.dcMotor.get("leftRear");
+        rightFront = hardwareMap.dcMotor.get("rightFront");
+        rightRear = hardwareMap.dcMotor.get("rightRear");
+    }
     public static void stop(){
-        Robot.leftFront.setPower(0);
-        Robot.leftRear.setPower(0);
-        Robot.rightFront.setPower(0);
-        Robot.rightRear.setPower(0);
+        leftFront.setPower(0);
+        leftRear.setPower(0);
+        rightFront.setPower(0);
+        rightRear.setPower(0);
     }
     public static void speedControl(double speedcontr){
         Constants.speed = speedcontr;

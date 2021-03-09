@@ -1,16 +1,25 @@
 package org.firstinspires.ftc.teamcode.Robot;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 public class Shooter {
+    public static DcMotor leftShooter;
+    public static DcMotor rightShooter;
+    public static void init(HardwareMap hardwareMap){
+        leftShooter = hardwareMap.dcMotor.get("MLeftShooter");
+        rightShooter = hardwareMap.dcMotor.get("MRightShooter");
+    }
     public static void on(double constant){
-        Robot.leftShooter.setPower(constant/VoltageSensor.getVoltage());
-        Robot.rightShooter.setPower(-constant/VoltageSensor.getVoltage());
+        leftShooter.setPower(constant/VoltageSensor.getVoltage());
+        rightShooter.setPower(-constant/VoltageSensor.getVoltage());
     }
     public static void off(){
-        Robot.leftShooter.setPower(-1);
-        Robot.rightShooter.setPower(1);
+        leftShooter.setPower(-1);
+        rightShooter.setPower(1);
         Robot.wait(500);
-        Robot.leftShooter.setPower(0);
-        Robot.rightShooter.setPower(0);
+        leftShooter.setPower(0);
+        rightShooter.setPower(0);
     }
     public static void shootOne(){ //shoot one ring
         //shooting code

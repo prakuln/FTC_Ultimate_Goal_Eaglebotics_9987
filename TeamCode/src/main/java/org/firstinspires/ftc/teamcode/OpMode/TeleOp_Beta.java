@@ -6,10 +6,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Mecanum_Drive.MyMecanumDrive;
-import org.firstinspires.ftc.teamcode.Mecanum_Drive.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.Robot.Arm;
-import org.firstinspires.ftc.teamcode.Robot.Camera;
 import org.firstinspires.ftc.teamcode.Robot.Constants;
 import org.firstinspires.ftc.teamcode.Robot.Coordinates;
 import org.firstinspires.ftc.teamcode.Robot.Drivetrain;
@@ -22,27 +19,7 @@ import org.firstinspires.ftc.teamcode.Robot.Shooter;
 public class TeleOp_Beta extends LinearOpMode {
     @Override
     public void runOpMode() {
-
-        Robot.leftFront = hardwareMap.dcMotor.get("leftFront");
-        Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
-        Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
-        Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        Robot.leftShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        Robot.rightShooter = hardwareMap.dcMotor.get("MRightShooter");
-        Robot.mIntake = hardwareMap.dcMotor.get("MIntake");
-        Robot.mArm = hardwareMap.dcMotor.get("MArm");
-        Robot.leftClaw = hardwareMap.servo.get("LClaw");
-        Robot.rightClaw = hardwareMap.servo.get("RClaw");
-        Robot.cam = hardwareMap.servo.get("Cam");
-        Robot.hopper = hardwareMap.servo.get("Hopper");
-        Robot.voltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
-        Robot.drive = new MyMecanumDrive(hardwareMap);
-        Robot.myLocalizer = new StandardTrackingWheelLocalizer(hardwareMap);
-        Robot.drive.setPoseEstimate(Coordinates.end);
-        Robot.myLocalizer.setPoseEstimate(Coordinates.end);
-        Camera.in();
-        Hopper.back();
-        Arm.open();
+        Robot.initTeleOp(hardwareMap);
         waitForStart();
         if (opModeIsActive()) {
             // Put run blocks here.
@@ -58,7 +35,11 @@ public class TeleOp_Beta extends LinearOpMode {
                 telemetry.addData("x", myPose.getX());
                 telemetry.addData("y", myPose.getY());
                 telemetry.addData("heading", myPose.getHeading());
-                Drivetrain.fieldCentricDrive(gamepad1.right_stick_x* Constants.turnPower, gamepad1.right_stick_y, gamepad1.left_trigger, gamepad1.right_trigger);
+
+                Drivetrain.fieldCentricDrive(gamepad1.right_stick_x* Constants.turnPower,
+                                            gamepad1.right_stick_y,
+                                            gamepad1.left_trigger,
+                                            gamepad1.right_trigger);
                 if (gamepad1.y) {
                     Shooter.on(Constants.powerConstant);
                 }

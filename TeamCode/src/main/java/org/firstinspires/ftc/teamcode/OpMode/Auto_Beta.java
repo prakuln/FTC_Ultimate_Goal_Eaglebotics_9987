@@ -5,18 +5,9 @@ import android.annotation.SuppressLint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.teamcode.Mecanum_Drive.MyMecanumDrive;
-import org.firstinspires.ftc.teamcode.Mecanum_Drive.StandardTrackingWheelLocalizer;
-import org.firstinspires.ftc.teamcode.Robot.Arm;
 import org.firstinspires.ftc.teamcode.Robot.Autocode;
 import org.firstinspires.ftc.teamcode.Robot.Camera;
-import org.firstinspires.ftc.teamcode.Robot.Coordinates;
-import org.firstinspires.ftc.teamcode.Robot.Hopper;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
 
 import java.util.List;
@@ -28,28 +19,7 @@ public class Auto_Beta extends LinearOpMode {
     @SuppressLint("DefaultLocale")
     @Override
    public void runOpMode(){
-        initVuforia();
-        initTfod();
-        Robot.leftFront = hardwareMap.dcMotor.get("leftFront");
-        Robot.leftRear = hardwareMap.dcMotor.get("leftRear");
-        Robot.rightFront = hardwareMap.dcMotor.get("rightFront");
-        Robot.rightRear = hardwareMap.dcMotor.get("rightRear");
-        Robot.leftShooter = hardwareMap.dcMotor.get("MLeftShooter");
-        Robot.rightShooter = hardwareMap.dcMotor.get("MRightShooter");
-        Robot.mIntake = hardwareMap.dcMotor.get("MIntake");
-        Robot.mArm = hardwareMap.dcMotor.get("MArm");
-        Robot.voltageSensor = hardwareMap.voltageSensor.get("Expansion Hub 2");
-        Robot.leftClaw = hardwareMap.servo.get("LClaw");
-        Robot.rightClaw = hardwareMap.servo.get("RClaw");
-        Robot.cam = hardwareMap.servo.get("Cam");
-        Robot.hopper = hardwareMap.servo.get("Hopper");
-        Hopper.back();
-        Arm.close();
-        Camera.out();
-        Robot.drive = new MyMecanumDrive(hardwareMap);
-        Robot.myLocalizer = new StandardTrackingWheelLocalizer(hardwareMap);
-        Robot.myLocalizer.setPoseEstimate(Coordinates.start);
-        Camera.setZoom();
+        Robot.initAuto(hardwareMap);
         telemetry.addLine();
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
@@ -58,11 +28,11 @@ public class Auto_Beta extends LinearOpMode {
         if (opModeIsActive()) {
 
             while (opModeIsActive()) {
-                if (Robot.tfod != null) {
+                if (Camera.tfod != null) {
                     Robot.wait(500);
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
-                    List<Recognition> updatedRecognitions = Robot.tfod.getUpdatedRecognitions();
+                    List<Recognition> updatedRecognitions = Camera.tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
                         telemetry.addData("# Object Detected", updatedRecognitions.size());
                         if (updatedRecognitions.size() == 0 ) {
@@ -106,35 +76,10 @@ public class Auto_Beta extends LinearOpMode {
             }
         }
 
-        if (Robot.tfod != null) {
-            Robot.tfod.shutdown();
+        if (Camera.tfod != null) {
+            Camera.tfod.shutdown();
         }
     }
-
-    private void initVuforia() {
-        /*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
-        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
-        parameters.vuforiaLicenseKey = Robot.VUFORIA_KEY;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
-
-        //  Instantiate the Vuforia engine
-        Robot.vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
-    }
-
-    private void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minResultConfidence = 0.8f;
-        Robot.tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, Robot.vuforia);
-        Robot.tfod.loadModelFromAsset(Robot.TFOD_MODEL_ASSET, Robot.LABEL_FIRST_ELEMENT, Robot.LABEL_SECOND_ELEMENT);
-    }
-
-
 }
 
 
