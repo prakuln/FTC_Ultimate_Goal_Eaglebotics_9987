@@ -34,11 +34,7 @@ public class DriveConstants {
      * from DriveVelocityPIDTuner.
      */
     public static final boolean RUN_USING_ENCODER = true;
-<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Mecanum_Drive/DriveConstants.java
     public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(20, 0, 3, 13.8);
-=======
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(25, 0, 5, 25);
->>>>>>> fce6c3a21efc96a555e61f5822b980c7160c8b19:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/mech_drive/DriveConstants.java
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -49,13 +45,8 @@ public class DriveConstants {
      * convenience. Make sure to exclude any gear ratio included in MOTOR_CONFIG from GEAR_RATIO.
      */
     public static double WHEEL_RADIUS = 2; // in
-<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Mecanum_Drive/DriveConstants.java
     public static double GEAR_RATIO = 0.95; // output (wheel) speed / input (motor) speed
     public static double TRACK_WIDTH = 9.98; // in
-=======
-    public static double GEAR_RATIO = 0.615; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 9.9; // in
->>>>>>> fce6c3a21efc96a555e61f5822b980c7160c8b19:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/mech_drive/DriveConstants.java
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -107,17 +98,11 @@ public class DriveConstants {
      * https://github.com/acmerobotics/road-runner-quickstart/issues/91
      
      */
-<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Mecanum_Drive/DriveConstants.java
+
     public static double MAX_VEL = 47;
     public static double MAX_ACCEL = 47;
     public static double MAX_ANG_VEL = 6.28;
     public static double MAX_ANG_ACCEL = 6.28;
-=======
-    public static double MAX_VEL = 50;
-    public static double MAX_ACCEL = 50;
-    public static double MAX_ANG_VEL = 1.3;
-    public static double MAX_ANG_ACCEL = 1.3;
->>>>>>> fce6c3a21efc96a555e61f5822b980c7160c8b19:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/mech_drive/DriveConstants.java
 
 
     public static double encoderTicksToInches(double ticks) {

@@ -1,10 +1,13 @@
 package org.firstinspires.ftc.teamcode.Trajectories;
 
-import org.firstinspires.ftc.teamcode.Robot.Camera;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Robot.Drivetrain;
+import org.firstinspires.ftc.teamcode.Vision.Camera;
 
 public class Autocode {
-    public static void a(){
+    public static void a(Telemetry telemetry){
+        telemetry.addData("Target Zone", "A");
+        telemetry.update();
         Camera.in();
         Navigation.goToShoot();
         Navigation.goToZone(0);
@@ -13,7 +16,9 @@ public class Autocode {
         Navigation.goToLine(0);
         Drivetrain.setEndPose();
     }
-    public static void b(){
+    public static void b(Telemetry telemetry){
+        telemetry.addData("Target Zone", "B");
+        telemetry.update();
         Camera.in();
         Navigation.goToShoot();
         Navigation.shootStack(1);
@@ -23,7 +28,9 @@ public class Autocode {
         Navigation.goToLine(1);
         Drivetrain.setEndPose();
     }
-    public static void c(){
+    public static void c(Telemetry telemetry){
+        telemetry.addData("Target Zone", "C");
+        telemetry.update();
         Camera.in();
         Navigation.goToShoot();
         Navigation.shootStack(4);

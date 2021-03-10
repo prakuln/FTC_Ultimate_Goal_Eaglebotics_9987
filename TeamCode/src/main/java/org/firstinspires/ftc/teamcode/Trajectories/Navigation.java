@@ -33,97 +33,102 @@ public class Navigation {
     public static void shootStack(int state){//1 is B, 4 is C (in A there is no stack)
         //drive.setPoseEstimate(Coordinates.shoot);
         Intake.succIn(1);
-        if(state ==1){
-            Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.shoot)
-                    .back(15, new MinVelocityConstraint(
-                            Arrays.asList(
-                                    new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
-                                    new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
-                            )
-                    ),new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                    .build();
-            Trajectory trajectory1 = Robot.drive.trajectoryBuilder(trajectory.end())
-                    .forward(15, new MinVelocityConstraint(
-                            Arrays.asList(
-                                    new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
-                                    new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
-                            )
-                    ),new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                    .build();
-            Shooter.on(Constants.powerConstant);
-            Robot.drive.followTrajectory(trajectory);
-            Robot.wait(500);
-            Robot.drive.followTrajectory(trajectory1);
-            Robot.wait(500);
-            Shooter.shootOne();
-            Intake.stop();
-            Shooter.off();
-        } else if(state ==4){
-            Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.shoot)
-                    .back(20, new MinVelocityConstraint(
-                            Arrays.asList(
-                                    new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
-                                    new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
-                            )
-                    ),new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                    .build();
-            Trajectory trajectory1 = Robot.drive.trajectoryBuilder(trajectory.end())
-                    .forward(20, new MinVelocityConstraint(
-                            Arrays.asList(
-                                    new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
-                                    new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
-                            )
-                    ),new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                    .build();
-            Shooter.on(Constants.powerConstant);
-            Robot.drive.followTrajectory(trajectory);
-            Robot.wait(500);
-            Robot.drive.followTrajectory(trajectory1);
-            Robot.wait(500);
-            Shooter.shootThree();
-            Intake.stop();
-            Shooter.off();
+        switch (state) {
+            case 1:
+                Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.shoot)
+                        .back(15, new MinVelocityConstraint(
+                                Arrays.asList(
+                                        new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
+                                        new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
+                                )
+                        ), new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
+                Trajectory trajectory1 = Robot.drive.trajectoryBuilder(trajectory.end())
+                        .forward(15, new MinVelocityConstraint(
+                                Arrays.asList(
+                                        new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
+                                        new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
+                                )
+                        ), new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
+                Shooter.on(Constants.powerConstant);
+                Robot.drive.followTrajectory(trajectory);
+                Robot.wait(500);
+                Robot.drive.followTrajectory(trajectory1);
+                Robot.wait(500);
+                Shooter.shootOne();
+                Intake.stop();
+                Shooter.off();
+                break;
+            case 4:
+                Trajectory trajectory2 = Robot.drive.trajectoryBuilder(Coordinates.shoot)
+                        .back(20, new MinVelocityConstraint(
+                                Arrays.asList(
+                                        new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
+                                        new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
+                                )
+                        ), new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
+                Trajectory trajectory3 = Robot.drive.trajectoryBuilder(trajectory2.end())
+                        .forward(20, new MinVelocityConstraint(
+                                Arrays.asList(
+                                        new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
+                                        new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
+                                )
+                        ), new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .build();
+                Shooter.on(Constants.powerConstant);
+                Robot.drive.followTrajectory(trajectory2);
+                Robot.wait(500);
+                Robot.drive.followTrajectory(trajectory3);
+                Robot.wait(500);
+                Shooter.shootThree();
+                Intake.stop();
+                Shooter.off();
+                break;
         }
     }
     public static void goToZone(int state){
         //drive.setPoseEstimate(Coordinates.shoot);
-        if (state == 0) { //A
-            Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.shoot)
-                    .splineTo(new Vector2d(Coordinates.a.getX(), Coordinates.a.getY()), Coordinates.a.getHeading(), new MinVelocityConstraint(
-                            Arrays.asList(
-                                    new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
-                                    new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
-                            )
-                    ),new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                    .addTemporalMarker(0, () -> Arm.moveDown(1))
-                    .addTemporalMarker(1.5, Arm::stop)
-                    .build();
-            Robot.drive.followTrajectory(trajectory);
-
-        }else if(state ==1){//B
-            Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.shoot)
-                    .splineTo(new Vector2d(Coordinates.b.getX(), Coordinates.b.getY()), Coordinates.b.getHeading())
-                    .addTemporalMarker(0, () -> Arm.moveDown(1))
-                    .addTemporalMarker(1.5, Arm::stop)
-                    .build();
-            Robot.drive.followTrajectory(trajectory);
-
-        }else if(state ==4){//C
-            Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.shoot)
-                    .splineTo(new Vector2d(Coordinates.c.getX(), Coordinates.c.getY()), Coordinates.c.getHeading())
-                    .addTemporalMarker(0, () -> Arm.moveDown(1))
-                    .addTemporalMarker(1.5, Arm::stop)
-                    .build();
-            Robot.drive.followTrajectory(trajectory);
-
-        }
-        Robot.wait(500);
-        Arm.open();
+        switch (state) {
+            case 0: //A
+                Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.shoot)
+                        .splineTo(new Vector2d(Coordinates.a.getX(), Coordinates.a.getY()), Coordinates.a.getHeading(), new MinVelocityConstraint(
+                                Arrays.asList(
+                                        new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
+                                        new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
+                                )
+                        ), new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
+                        .addTemporalMarker(0, () -> Arm.moveDown(1))
+                        .addTemporalMarker(1.5, Arm::stop)
+                        .build();
+                Robot.drive.followTrajectory(trajectory);
+                break;
+            case 1://B
+                Trajectory trajectory1 = Robot.drive.trajectoryBuilder(Coordinates.shoot)
+                        .splineTo(new Vector2d(Coordinates.b.getX(), Coordinates.b.getY()), Coordinates.b.getHeading())
+                        .addTemporalMarker(0, () -> Arm.moveDown(1))
+                        .addTemporalMarker(1.5, Arm::stop)
+                        .build();
+                Robot.drive.followTrajectory(trajectory1);
+                break;
+            case 4://C
+                Trajectory trajectory2 = Robot.drive.trajectoryBuilder(Coordinates.shoot)
+                        .splineTo(new Vector2d(Coordinates.c.getX(), Coordinates.c.getY()), Coordinates.c.getHeading())
+                        .addTemporalMarker(0, () -> Arm.moveDown(1))
+                        .addTemporalMarker(1.5, Arm::stop)
+                        .build();
+                Robot.drive.followTrajectory(trajectory2);
+                break;
+            }
+            Robot.wait(500);
+            Arm.open();
 
 
     }
     public static void getWobble(int state){ //0 is A, 1 is B, 4 is C
-        if (state == 0) { //A
+        switch (state){
+            case 0: //A
             Trajectory trajectory1 = Robot.drive.trajectoryBuilder(Coordinates.a)
                     .back(20)
                     .build();
@@ -134,27 +139,27 @@ public class Navigation {
                     .build();
             Robot.drive.followTrajectory(trajectory);
 
-        }else if(state ==1){//B
-            Trajectory trajectory1 = Robot.drive.trajectoryBuilder(Coordinates.b)
+            case 1://B
+            Trajectory trajectory2 = Robot.drive.trajectoryBuilder(Coordinates.b)
                     .back(20)
                     .build();
-            Robot.drive.followTrajectory(trajectory1);
+            Robot.drive.followTrajectory(trajectory2);
             Robot.drive.turn(Math.toRadians(180));
-            Trajectory trajectory = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
+            Trajectory trajectory3 = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.wobble.getX(), Coordinates.wobble.getY()), Coordinates.wobble.getHeading())
                     .build();
-            Robot.drive.followTrajectory(trajectory);
+            Robot.drive.followTrajectory(trajectory3);
 
-        }else if(state ==4){//C
-            Trajectory trajectory1 = Robot.drive.trajectoryBuilder(Coordinates.c)
+            case 4://C
+            Trajectory trajectory4 = Robot.drive.trajectoryBuilder(Coordinates.c)
                     .back(20)
                     .build();
-            Robot.drive.followTrajectory(trajectory1);
+            Robot.drive.followTrajectory(trajectory4);
             Robot.drive.turn(Math.toRadians(180));
-            Trajectory trajectory = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
+            Trajectory trajectory5 = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.wobble.getX(), Coordinates.wobble.getY()), Coordinates.wobble.getHeading())
                     .build();
-            Robot.drive.followTrajectory(trajectory);
+            Robot.drive.followTrajectory(trajectory5);
 
         }
         Arm.close();
@@ -162,46 +167,48 @@ public class Navigation {
     }
     public static void bringWobble(int state){//0 is A, 1 is B, 4 is C
         Robot.drive.turn(Math.toRadians(180));
-        if (state == 0) { //A
+        switch (state){
+            case 0: //A
             Trajectory trajectory = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.a.getX()-2, Coordinates.a.getY()+7), Coordinates.a.getHeading())
                     .build();
             Robot.drive.followTrajectory(trajectory);
-        }else if(state ==1){//B
-            Trajectory trajectory = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
+            case 1://B
+            Trajectory trajectory1 = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.b.getX(), Coordinates.b.getY() - 3), 358)
                     .build();
-            Robot.drive.followTrajectory(trajectory);
-        }else if(state ==4){//C
-            Trajectory trajectory = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
+            Robot.drive.followTrajectory(trajectory1);
+            case 4://C
+            Trajectory trajectory2 = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.c.getX() -2, Coordinates.c.getY() - 3), Coordinates.c.getHeading())
                     .build();
-            Robot.drive.followTrajectory(trajectory);
+            Robot.drive.followTrajectory(trajectory2);
         }
         Arm.open();
         Robot.wait(500);
     }
     public static void goToLine(int state){
-        if (state == 0) { //A
+        switch (state){
+            case 0: //A
             Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.a)
                     .back(5)
                     .build();
             Robot.drive.followTrajectory(trajectory);
-        }else if(state ==1){//B
-            Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.b)
+            case 1://B
+            Trajectory trajectory2 = Robot.drive.trajectoryBuilder(Coordinates.b)
                     .back(5)
                     .build();
-            Robot.drive.followTrajectory(trajectory);
-        }else if(state ==4){//C
+            Robot.drive.followTrajectory(trajectory2);
+            case 4://C
             Trajectory trajectory1 = Robot.drive.trajectoryBuilder(Coordinates.c)
                     .back(20)
                     .build();
             Robot.drive.followTrajectory(trajectory1);
             Robot.drive.turn(Math.toRadians(45));
-            Trajectory trajectory = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
+            Trajectory trajectory3 = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
                     .back(30)
                     .build();
-            Robot.drive.followTrajectory(trajectory);
+            Robot.drive.followTrajectory(trajectory3);
         }
 
     }

@@ -8,12 +8,12 @@
 // please think carefully as to whether such customizations are really necessary
 // before doing so.
 
-<<<<<<< HEAD
+/*<<<<<<< HEAD
 
 // Custom definitions may go here
 
 =======
->>>>>>> fce6c3a21efc96a555e61f5822b980c7160c8b19
+>>>>>>> fce6c3a21efc96a555e61f5822b980c7160c8b19*/
 apply from: '../build.common.gradle'
 apply from: '../build.dependencies.gradle'
 

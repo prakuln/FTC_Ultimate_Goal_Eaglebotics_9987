@@ -4,12 +4,9 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Robot.Arm;
-import org.firstinspires.ftc.teamcode.Robot.Camera;
 import org.firstinspires.ftc.teamcode.Robot.Drivetrain;
-import org.firstinspires.ftc.teamcode.Robot.Hopper;
-import org.firstinspires.ftc.teamcode.Trajectories.Navigation;
 import org.firstinspires.ftc.teamcode.Robot.Robot;
+import org.firstinspires.ftc.teamcode.Trajectories.Navigation;
 
 /*
  * This is a simple routine to test translational drive capabilities.
@@ -20,10 +17,7 @@ import org.firstinspires.ftc.teamcode.Robot.Robot;
 public class Roadrunner_Test extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot.initAuto(hardwareMap);
-        Hopper.back();
-        Arm.close();
-        Camera.out();
+        Robot.initAuto(hardwareMap, telemetry);
         waitForStart();
         if (isStopRequested()) return;
         Navigation.goToShoot();

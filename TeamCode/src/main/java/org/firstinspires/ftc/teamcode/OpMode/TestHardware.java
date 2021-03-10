@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Robot.Robot;
 public class TestHardware extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot.initTeleOp(hardwareMap);
+        Robot.initTeleOp(hardwareMap, telemetry);
         waitForStart();
         if (opModeIsActive()) {
 

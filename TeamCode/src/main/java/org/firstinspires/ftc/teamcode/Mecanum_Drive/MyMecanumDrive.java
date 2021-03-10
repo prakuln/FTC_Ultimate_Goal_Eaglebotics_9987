@@ -57,13 +57,8 @@ import static org.firstinspires.ftc.teamcode.Mecanum_Drive.DriveConstants.kV;
  */
 @Config
 public class MyMecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDrive {
-<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/Mecanum_Drive/MyMecanumDrive.java
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(5, 0, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(8, 0, 0);
-=======
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(3, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(3, 0, 0);
->>>>>>> fce6c3a21efc96a555e61f5822b980c7160c8b19:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/mech_drive/MyMecanumDrive.java
 
     public static double LATERAL_MULTIPLIER = 41.5/44.5;
 
@@ -146,10 +141,10 @@ public class MyMecanumDrive extends com.acmerobotics.roadrunner.drive.MecanumDri
         // upward (normal to the floor) using a command like the following:
         // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
 
-        leftFront = hardwareMap.get(DcMotorEx.class, "frontLeft");
-        leftRear = hardwareMap.get(DcMotorEx.class, "backLeft");
-        rightRear = hardwareMap.get(DcMotorEx.class, "backRight");
-        rightFront = hardwareMap.get(DcMotorEx.class, "frontRight");
+        leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
+        leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
+        rightRear = hardwareMap.get(DcMotorEx.class, "rightFront");
+        rightFront = hardwareMap.get(DcMotorEx.class, "rightRear");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 

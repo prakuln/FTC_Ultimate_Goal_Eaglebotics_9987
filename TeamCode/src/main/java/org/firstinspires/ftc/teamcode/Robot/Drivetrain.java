@@ -65,7 +65,13 @@ public class Drivetrain {
 
         //shooterOff();
     }
+    public static void reportPose(){
+        Pose2d myPose = Robot.myLocalizer.getPoseEstimate();
 
+        Robot.tele.addData("x", myPose.getX());
+        Robot.tele.addData("y", myPose.getY());
+        Robot.tele.addData("heading", myPose.getHeading());
+    }
     public static void setEndPose(){
         Coordinates.end = Robot.drive.getPoseEstimate();
     }
