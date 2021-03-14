@@ -133,12 +133,12 @@ public class Navigation {
                     .back(20)
                     .build();
             Robot.drive.followTrajectory(trajectory1);
-            Robot.drive.turn(Math.toRadians(270));
+            Robot.drive.turn(Math.toRadians(-90));
             Trajectory trajectory = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.wobble.getX(), Coordinates.wobble.getY()), Coordinates.wobble.getHeading())
                     .build();
             Robot.drive.followTrajectory(trajectory);
-
+            break;
             case 1://B
             Trajectory trajectory2 = Robot.drive.trajectoryBuilder(Coordinates.b)
                     .back(20)
@@ -149,7 +149,7 @@ public class Navigation {
                     .splineTo(new Vector2d(Coordinates.wobble.getX(), Coordinates.wobble.getY()), Coordinates.wobble.getHeading())
                     .build();
             Robot.drive.followTrajectory(trajectory3);
-
+            break;
             case 4://C
             Trajectory trajectory4 = Robot.drive.trajectoryBuilder(Coordinates.c)
                     .back(20)
@@ -160,7 +160,7 @@ public class Navigation {
                     .splineTo(new Vector2d(Coordinates.wobble.getX(), Coordinates.wobble.getY()), Coordinates.wobble.getHeading())
                     .build();
             Robot.drive.followTrajectory(trajectory5);
-
+            break;
         }
         Arm.close();
         Robot.wait(500);
@@ -173,16 +173,19 @@ public class Navigation {
                     .splineTo(new Vector2d(Coordinates.a.getX()-2, Coordinates.a.getY()+7), Coordinates.a.getHeading())
                     .build();
             Robot.drive.followTrajectory(trajectory);
+            break;
             case 1://B
             Trajectory trajectory1 = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
-                    .splineTo(new Vector2d(Coordinates.b.getX(), Coordinates.b.getY() - 3), 358)
+                    .splineTo(new Vector2d(Coordinates.b.getX(), Coordinates.b.getY()), 358)
                     .build();
             Robot.drive.followTrajectory(trajectory1);
+            break;
             case 4://C
             Trajectory trajectory2 = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
                     .splineTo(new Vector2d(Coordinates.c.getX() -2, Coordinates.c.getY() - 3), Coordinates.c.getHeading())
                     .build();
             Robot.drive.followTrajectory(trajectory2);
+            break;
         }
         Arm.open();
         Robot.wait(500);
@@ -194,11 +197,13 @@ public class Navigation {
                     .back(5)
                     .build();
             Robot.drive.followTrajectory(trajectory);
+            break;
             case 1://B
             Trajectory trajectory2 = Robot.drive.trajectoryBuilder(Coordinates.b)
                     .back(5)
                     .build();
             Robot.drive.followTrajectory(trajectory2);
+            break;
             case 4://C
             Trajectory trajectory1 = Robot.drive.trajectoryBuilder(Coordinates.c)
                     .back(20)
@@ -209,6 +214,7 @@ public class Navigation {
                     .back(30)
                     .build();
             Robot.drive.followTrajectory(trajectory3);
+            break;
         }
 
     }
