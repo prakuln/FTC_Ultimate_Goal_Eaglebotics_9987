@@ -21,9 +21,14 @@ public class Navigation {
         Robot.drive.setPoseEstimate(Coordinates.start);
         Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.start)
                 .splineTo(new Vector2d(Coordinates.auto_point.getX(), Coordinates.auto_point.getY()), Coordinates.auto_point.getHeading())
-                .splineTo(new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY()), Coordinates.shoot.getHeading())
+                .splineTo(new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY()), Coordinates.shoot.getHeading() , new MinVelocityConstraint(
+                        Arrays.asList(
+                                new AngularVelocityConstraint(4),
+                                new MecanumVelocityConstraint(30, DriveConstants.TRACK_WIDTH)
+                        )
+                ), new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .addTemporalMarker(1, () -> Arm.moveDown(1))
-                .addTemporalMarker(1.5, Arm::stop)
+                .addTemporalMarker(1.6, Arm::stop)
                 .build();
         Shooter.on(Constants.powerConstant);
         Robot.drive.followTrajectory(trajectory);
@@ -62,7 +67,7 @@ public class Navigation {
                 break;
             case 4:
                 Trajectory trajectory2 = Robot.drive.trajectoryBuilder(Coordinates.shoot)
-                        .back(20, new MinVelocityConstraint(
+                        .back(15, new MinVelocityConstraint(
                                 Arrays.asList(
                                         new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
                                         new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
@@ -70,7 +75,7 @@ public class Navigation {
                         ), new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
                         .build();
                 Trajectory trajectory3 = Robot.drive.trajectoryBuilder(trajectory2.end())
-                        .forward(20, new MinVelocityConstraint(
+                        .forward(15, new MinVelocityConstraint(
                                 Arrays.asList(
                                         new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
                                         new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
