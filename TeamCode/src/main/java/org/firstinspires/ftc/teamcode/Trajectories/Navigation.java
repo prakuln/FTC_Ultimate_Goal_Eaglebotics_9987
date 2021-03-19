@@ -67,18 +67,18 @@ public class Navigation {
                 break;
             case 4:
                 Trajectory trajectory2 = Robot.drive.trajectoryBuilder(Coordinates.shoot)
-                        .back(15, new MinVelocityConstraint(
+                        .back(25, new MinVelocityConstraint(
                                 Arrays.asList(
                                         new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
-                                        new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
+                                        new MecanumVelocityConstraint(20, DriveConstants.TRACK_WIDTH)
                                 )
                         ), new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
                         .build();
                 Trajectory trajectory3 = Robot.drive.trajectoryBuilder(trajectory2.end())
-                        .forward(15, new MinVelocityConstraint(
+                        .forward(25, new MinVelocityConstraint(
                                 Arrays.asList(
                                         new AngularVelocityConstraint(DriveConstants.MAX_ANG_VEL),
-                                        new MecanumVelocityConstraint(15, DriveConstants.TRACK_WIDTH)
+                                        new MecanumVelocityConstraint(20, DriveConstants.TRACK_WIDTH)
                                 )
                         ), new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
                         .build();
