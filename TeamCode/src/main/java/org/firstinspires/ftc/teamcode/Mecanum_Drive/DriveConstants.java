@@ -100,7 +100,7 @@ public class DriveConstants {
      */
 
     public static double MAX_VEL = 42; //TODO: TRY A LOWER VELOCITY AND SEE IF IT MAKES SPLINES BETTER
-    public static double MAX_ACCEL = 42;
+    public static double MAX_ACCEL = 35;
     public static double MAX_ANG_VEL = 4; //TODO: TRY A LOWER VELOCITY AND SEE IF IT MAKES SPLINES BETTER
     public static double MAX_ANG_ACCEL = 4;
 
