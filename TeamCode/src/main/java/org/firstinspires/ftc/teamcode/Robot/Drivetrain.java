@@ -25,8 +25,8 @@ public class Drivetrain {
         rightFront.setPower(0);
         rightRear.setPower(0);
     }
-    public static void speedControl(double speedcontr){
-        Constants.speed = speedcontr;
+    public static void speedControl(double speed){
+        Constants.speed = speed;
     }
     /*
     public static void adjustHeading(int headingDegrees){

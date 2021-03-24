@@ -27,8 +27,9 @@ public class Navigation {
                                 new MecanumVelocityConstraint(30, DriveConstants.TRACK_WIDTH)
                         )
                 ), new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
-                .addTemporalMarker(1, () -> Arm.moveDown(1))
-                .addTemporalMarker(1.6, Arm::stop)
+                .addTemporalMarker(0.5, () -> Arm.moveDown(1))
+                .addTemporalMarker(1.1, () -> Arm.moveDown(0.3))
+                .addTemporalMarker(3, Arm::stop)
                 .build();
         Shooter.on(Constants.powerConstant);
         Robot.drive.followTrajectory(trajectory);
@@ -198,10 +199,7 @@ public class Navigation {
     public static void goToLine(int state){
         switch (state){
             case 0: //A
-            Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.a)
-                    .back(5)
-                    .build();
-            Robot.drive.followTrajectory(trajectory);
+
             break;
             case 1://B
             Trajectory trajectory2 = Robot.drive.trajectoryBuilder(Coordinates.b)
