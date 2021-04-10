@@ -24,7 +24,7 @@ public class Navigation {
                 .splineTo(new Vector2d(Coordinates.shoot.getX(), Coordinates.shoot.getY()), Coordinates.shoot.getHeading() , new MinVelocityConstraint(
                         Arrays.asList(
                                 new AngularVelocityConstraint(4),
-                                new MecanumVelocityConstraint(30, DriveConstants.TRACK_WIDTH)
+                                new MecanumVelocityConstraint(35, DriveConstants.TRACK_WIDTH)
                         )
                 ), new ProfileAccelerationConstraint(DriveConstants.MAX_ACCEL))
                 .addTemporalMarker(0.5, () -> Arm.moveDown(1))

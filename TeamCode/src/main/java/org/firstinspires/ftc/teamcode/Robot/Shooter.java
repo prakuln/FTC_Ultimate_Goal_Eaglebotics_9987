@@ -38,10 +38,10 @@ public class Shooter {
         Robot.wait(500);
         for(int i=0; i<3; i++){ //shoot the rings
             Hopper.forward();
-            Robot.wait(400);
+            Robot.wait(500);
             Hopper.back();
             on(Constants.powerConstant);
-            Robot.wait(400);
+            Robot.wait(500);
         }
         Hopper.back(); // bring the arm back
     }

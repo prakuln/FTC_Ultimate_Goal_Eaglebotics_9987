@@ -56,5 +56,12 @@ public class Robot {
             Thread.currentThread().interrupt();
         }
     }
+    public static void update(Telemetry telemetry){
+        telemetry.update();
+        Robot.drive.update();
+        Robot.myLocalizer.update();
+        Hopper.back();
+        Drivetrain.reportPose();
+    }
 }
 

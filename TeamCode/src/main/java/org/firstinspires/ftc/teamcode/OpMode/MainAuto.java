@@ -17,7 +17,6 @@ public class MainAuto extends LinearOpMode {
     public void runOpMode(){
         Robot.initAuto(hardwareMap, telemetry);
         waitForStart();
-
         if (opModeIsActive()) {
             switch (Camera.getHeight()) {
                 case ZERO:

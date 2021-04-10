@@ -40,4 +40,18 @@ public class Autocode {
         Navigation.goToLine(4);
         Drivetrain.setEndPose();
     }
+    public static void test(Telemetry telemetry){
+        telemetry.addData("Testing Autonomous", ">>>");
+        telemetry.update();
+        Navigation.goToShoot();
+        //Robot.shootStack(1, ExpansionHub1_VoltageSensor.getVoltage());
+        //Robot.wait(1000);
+        //Robot.ShootOne(ExpansionHub1_VoltageSensor.getVoltage());
+        //Robot.MIntake.setPower(0);
+        //Robot.goToZone(0);
+        //Robot.getWobble(0);
+        //Robot.bringWobble(0);
+        //Robot.goToLine(0);
+        Drivetrain.setEndPose();
+    }
 }
