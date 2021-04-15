@@ -30,9 +30,7 @@ public class Auto_Beta extends LinearOpMode {
                     Autocode.c(telemetry);
                     break;
             }
-
         }
-
     }
 }
 

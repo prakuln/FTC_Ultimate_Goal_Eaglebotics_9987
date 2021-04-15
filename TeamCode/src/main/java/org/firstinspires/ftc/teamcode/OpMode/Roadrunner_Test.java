@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Trajectories.Autocode;
 public class Roadrunner_Test extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Robot.initAuto(hardwareMap, telemetry);
+        Robot.initTest(hardwareMap, telemetry);
         waitForStart();
         if (isStopRequested()) return;
         Autocode.test(telemetry);

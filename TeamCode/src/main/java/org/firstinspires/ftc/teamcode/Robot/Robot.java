@@ -45,6 +45,16 @@ public class Robot {
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
     }
+    public static void initTest(HardwareMap hardwareMap, Telemetry telemetry){
+        init(hardwareMap, telemetry);
+        Hopper.back();
+        Arm.close();
+        drive.setPoseEstimate(Coordinates.start);
+        myLocalizer.setPoseEstimate(Coordinates.start);
+        telemetry.addLine();
+        telemetry.addData(">", "Press Play to start op mode");
+        telemetry.update();
+    }
     public static void wait(int ms)
     {
         try

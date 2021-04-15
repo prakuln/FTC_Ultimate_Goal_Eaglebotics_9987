@@ -29,9 +29,7 @@ public class MainAuto extends LinearOpMode {
                     Autocode.c(telemetry);
                     break;
             }
-
         }
-
     }
 }
 

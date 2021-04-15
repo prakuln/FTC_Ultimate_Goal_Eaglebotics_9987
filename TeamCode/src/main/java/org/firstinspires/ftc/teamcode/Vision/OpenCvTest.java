@@ -10,16 +10,11 @@ public class OpenCvTest extends LinearOpMode {
         Camera.init(hardwareMap, telemetry);
         waitForStart();
         if (opModeIsActive()) {
-            // Put run blocks here.
-
+            Camera.out();
             while (opModeIsActive()) {
-                // Put loop blocks here.
                 telemetry.addData("[Ring Stack] >>", Camera.getHeight());
                 telemetry.update();
-
             }
-
         }
-
     }
 }
