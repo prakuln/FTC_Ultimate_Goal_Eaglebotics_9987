@@ -16,11 +16,9 @@ public class TestHardware extends LinearOpMode {
     public void runOpMode() {
         Robot.initTest(hardwareMap, telemetry);
         waitForStart();
-        if (opModeIsActive()) {
             while (opModeIsActive()) {
                 Joystick.testControl(gamepad1);
                 Intake.succIn(1);
             }
-        }
     }
 }
