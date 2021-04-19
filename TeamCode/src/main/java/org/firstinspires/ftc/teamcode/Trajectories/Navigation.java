@@ -38,7 +38,7 @@ public class Navigation {
     }
     public static void shootStack(int state){//1 is B, 4 is C (in A there is no stack)
         //drive.setPoseEstimate(Coordinates.shoot);
-        Intake.succIn(1);
+        Intake.succIn(0.6);
         switch (state) {
             case 1:
                 Trajectory trajectory = Robot.drive.trajectoryBuilder(Coordinates.shoot)
@@ -209,14 +209,15 @@ public class Navigation {
             break;
             case 4://C
             Trajectory trajectory1 = Robot.drive.trajectoryBuilder(Coordinates.c)
-                    .back(20)
+                    .back(35)
                     .build();
             Robot.drive.followTrajectory(trajectory1);
             Robot.drive.turn(Math.toRadians(45));
             Trajectory trajectory3 = Robot.drive.trajectoryBuilder(Robot.drive.getPoseEstimate())
-                    .back(30)
+                    .back(10)
                     .build();
             Robot.drive.followTrajectory(trajectory3);
+            Robot.drive.turn(Math.toRadians(180));
             break;
         }
 

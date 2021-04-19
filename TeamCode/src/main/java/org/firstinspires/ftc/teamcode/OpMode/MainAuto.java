@@ -17,18 +17,16 @@ public class MainAuto extends LinearOpMode {
     public void runOpMode(){
         Robot.initAuto(hardwareMap, telemetry);
         waitForStart();
-        if (opModeIsActive()) {
-            switch (Camera.getHeight()) {
-                case ZERO:
-                    Autocode.a(telemetry);
-                    break;
-                case ONE:
-                    Autocode.b(telemetry);
-                    break;
-                case FOUR:
-                    Autocode.c(telemetry);
-                    break;
-            }
+        switch (Camera.getHeight()) {
+            case ZERO:
+                Autocode.a(telemetry);
+                break;
+            case ONE:
+                Autocode.b(telemetry);
+                break;
+            case FOUR:
+                Autocode.c(telemetry);
+                break;
         }
     }
 }

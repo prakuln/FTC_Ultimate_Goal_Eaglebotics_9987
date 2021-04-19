@@ -35,8 +35,8 @@ public class Autocode {
         Navigation.goToShoot();
         Navigation.shootStack(4);
         Navigation.goToZone(4);
-        Navigation.getWobble(4);
-        Navigation.bringWobble(4);
+        //Navigation.getWobble(4);
+        //Navigation.bringWobble(4);
         Navigation.goToLine(4);
         Drivetrain.setEndPose();
     }

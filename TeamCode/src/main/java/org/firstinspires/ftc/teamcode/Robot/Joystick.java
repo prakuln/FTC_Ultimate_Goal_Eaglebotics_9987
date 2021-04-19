@@ -36,8 +36,8 @@ public class Joystick {
         if (gamepad1.dpad_left) Arm.open();
 
         //experimental
-        if(gamepad1.left_stick_button) Constants.targetShooterPower-=0.05;
-        if(gamepad1.right_stick_button) Constants.targetShooterPower+=0.05;
+        //if(gamepad1.left_stick_button) Constants.targetShooterPower-=0.05;
+        //if(gamepad1.right_stick_button) Constants.targetShooterPower+=0.05;
 
         Intake.succIn(gamepad1.left_stick_y);
     }

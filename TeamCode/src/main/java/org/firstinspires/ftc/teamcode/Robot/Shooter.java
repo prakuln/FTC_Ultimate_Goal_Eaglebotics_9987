@@ -36,6 +36,7 @@ public class Shooter {
         Hopper.back(); //set arm back
         on(Constants.powerConstant);
         Robot.wait(500);
+        Intake.succIn(0.5);
         for(int i=0; i<3; i++){ //shoot the rings
             Hopper.forward();
             Robot.wait(500);
@@ -44,14 +45,14 @@ public class Shooter {
             Robot.wait(500);
         }
         Hopper.back(); // bring the arm back
+        Intake.stop();
     }
     public static void powerShot(){
         //shooting code
         Hopper.back();
+        Intake.succIn(0.5);
         on(Constants.shotConstant);
-        Robot.wait(1500);
-        on(Constants.shotConstant);
-        Robot.wait(500);
+        Robot.wait(2000);
         Hopper.forward();
         Robot.wait(200);
         Hopper.back();
@@ -69,6 +70,7 @@ public class Shooter {
         Hopper.forward();
         Robot.wait(200);
         Hopper.back();
+        Intake.stop();
         off();
     }
 }

@@ -10,7 +10,7 @@ public class Hopper {
         hopper = hardwareMap.servo.get("Hopper");
     }
     public static void back(){
-        hopper.setPosition(0.93);
+        hopper.setPosition(0.95);
     }
     public static void forward(){
         hopper.setPosition(0.81);
